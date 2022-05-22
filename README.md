@@ -6,7 +6,7 @@ Example:
 import createConfig from 'fluent-machine';
 import createMachine from '@xstate/fsm';
 
-// State chart using JSX (also supports using Xstate configuration)
+// State chart using JSX (also supports Xstate configuration)
 const humanStateChart = (
   <>
     <State initial id="sleeping">
