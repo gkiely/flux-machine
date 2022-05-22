@@ -6,3 +6,34 @@ Goal
 Estimated time: 2 + 2 + .5 + 2 + .5 + .5 + 2 (9.5)
 Start time: 11:30
 Estimated finish time: 10pm
+
+
+Prior example of fluent api:
+https://www.npmjs.com/package/finity
+
+
+
+Nested human state machine
+const humanStateChart = (
+  <>
+    <State id="sleeping" initial>
+      <Transition event="wake" target="awake" />
+    </State>    
+    <State id="awake">
+      <State initial id="resting">
+        <Transition event="sleep" target="sleeping" />
+        <Transition event="walk" target="walking" />
+      </State>
+      <State initial id="walking">
+        <Transition event="rest" target="resting" />
+        <Transition event="run" target="running" />
+      </State>
+      <State initial id="running">
+        <Transition event="walk" target="walking" />
+      </State>
+      <State initial id="working">
+        <Transition event="rest" target="resting" />
+      </State>
+    </State>
+  </>
+);

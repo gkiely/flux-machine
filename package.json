@@ -4,8 +4,12 @@
   "description": "Spec compliant state machines using JSX, XML or JSON and chainable methods",
   "main": "src/index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest",
+    "pre-push": "tsc && prettier src --check && npm test",
+    "pre-commit": "tsc && prettier src --write"
   },
+  "pre-commit": "pre-commit",
+  "pre-push": "pre-push",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gkiely/fluent-machine.git"
@@ -27,6 +31,19 @@
   },
   "homepage": "https://github.com/gkiely/fluent-machine#readme",
   "devDependencies": {
-    "jest": "^28.1.0"
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/preset-typescript": "^7.17.12",
+    "@types/jest": "^27.5.1",
+    "@types/react": "^18.0.9",
+    "immer": "^9.0.14",
+    "jest": "^28.1.0",
+    "pre-commit": "^1.2.2",
+    "pre-push": "^0.1.2",
+    "prettier": "2.6.2"
+  },
+  "dependencies": {
+    "react": "^18.1.0"
   }
 }

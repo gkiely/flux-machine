@@ -1,15 +1,23 @@
 - Outline tasks x
 - Estimate time x
-- Build it
+- Setup
   - Setup tsconfig .5 x
-  - TDD: Write tests, include both json and jsx input 2h
+  - Setup prettier and pre-push .5 x
+- Build it
+  - Write tests 2h
     - Stub out fsm.ts x
-    - Write tests
-  - Post to xstate group
+    - Test modules
+      - parseJSX x
+      - fluent: action, condition, assign x
+      - fsm x
+  - Post repo to xstate group
   - Build JSX support 2h
+    - Get tests to pass
   - Build fluent api 2h
+    - Get tests to pass
+  - Add <SCXML initial="state">
+    https://scion.scxml.io/tutorials/history
   - Add json support .5h
-  - Add xml support if time 2h
   - Use @xstate/fsm behind the scenes, should just be createMachine that creates machine and service automatically .5h
   - Update readme .5h
   - See if you can get an example state chart with scion 2h
@@ -20,6 +28,9 @@
   - Read through xstate spec, add any additional methods 2h
   - Push to hackernews
 
+If time:
+- Nested states
+- Parallel states
 
 Research:
 - Message these guys for feedback:
