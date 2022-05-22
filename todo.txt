@@ -6,11 +6,11 @@
 - Build it
   - Write tests 2h
     - Stub out fsm.ts x
-    - Test modules
+    - Failing tests for modules
       - parseJSX x
       - fluent: action, condition, assign x
       - fsm x
-  - Post repo to xstate group
+  - Post repo to xstate group x
   - Build JSX support 2h
     - Get tests to pass
   - Build fluent api 2h

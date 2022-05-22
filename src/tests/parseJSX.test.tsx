@@ -1,4 +1,4 @@
-import { parseJSX, State, Transition } from '../fsm';
+import { parseJSX, State, Transition } from '../parseJSX';
 
 const sc = (
   <>

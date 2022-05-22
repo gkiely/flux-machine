@@ -1,4 +1,4 @@
-import fsm, { parseJSX, State, Transition } from '../fsm';
+import fsm from '../fsm';
 
 describe('fsm', () => {
   it('accepts jsx and creates a fluent api object', () => {});
