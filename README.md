@@ -1,5 +1,6 @@
 # Fluent machine
 Spec compliant state machines using JSX, SCXML or JSON and chainable methods.
+
 SCXML specification: https://www.w3.org/TR/scxml/
 
 Example:
