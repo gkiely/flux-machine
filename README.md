@@ -3,10 +3,10 @@ Generate xstate machines using JSX or JSON and chainable methods
 
 Example:
 ```tsx
-import createConfig from 'fluent-machine';
 import createMachine from '@xstate/fsm';
+import createConfig from 'fluent-machine';
 
-// State chart using JSX (also supports Xstate configuration)
+// State chart using JSX
 const humanStateChart = (
   <>
     <State initial id="sleeping">
@@ -27,6 +27,7 @@ const context = {
   speed: 0
 };
 
+// Create config with JSX (or Xstate JSON)
 const config = createConfig(humanStateChart, context);
 
 // Chained syntax
