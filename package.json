@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "pre-push": "tsc && prettier src --check && npm test",
-    "pre-commit": "tsc && prettier src --write"
+    "pre-commit": "tsc && prettier src --write --loglevel error"
   },
   "pre-commit": "pre-commit",
   "pre-push": "pre-push",
