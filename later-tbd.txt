@@ -1,0 +1,2 @@
+- Setup vite project so I can have json input and output, or do this later?
+https://vitejs.dev/guide/#scaffolding-your-first-vite-project

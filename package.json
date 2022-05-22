@@ -1,0 +1,32 @@
+{
+  "name": "fluent-machine",
+  "version": "1.0.0",
+  "description": "Spec compliant state machines using JSX, XML or JSON and chainable methods",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gkiely/fluent-machine.git"
+  },
+  "keywords": [
+    "state-machine",
+    "scxml",
+    "statechart",
+    "state-management",
+    "finite-state-machine",
+    "fsm",
+    "react",
+    "jsx"
+  ],
+  "author": "Grant Kiely <grant.kiely@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gkiely/fluent-machine/issues"
+  },
+  "homepage": "https://github.com/gkiely/fluent-machine#readme",
+  "devDependencies": {
+    "jest": "^28.1.0"
+  }
+}

@@ -1,10 +1,10 @@
 # Fluent machine
-Spec compliant state machines using JSX, XML or JSON and chainable methods
+Spec compliant state machines using JSX, SCXML or JSON and chainable methods.
+SCXML specification: https://www.w3.org/TR/scxml/
 
 Example:
 ```tsx
-import createMachine from '@xstate/fsm';
-import createConfig from 'fluent-machine';
+import fsm from 'fluent-machine';
 
 // State chart using JSX
 const humanStateChart = (
@@ -28,10 +28,10 @@ const context = {
 };
 
 // Create config with JSX (or Xstate JSON)
-const config = createConfig(humanStateChart, context);
+const humanMachine = fsm(humanStateChart, context);
 
 // Chained syntax
-config
+humanMachine
   .when({
     state: "walking",
     event: "run"
@@ -44,7 +44,7 @@ config
     speed: 10
   }));
 
-config
+humanMachine
   .when({
     state: "sleeping"
   })
@@ -53,5 +53,5 @@ config
     speed: 0
   }));
 
-export const machine = createMachine(machineConfig.get());
+export const machine = humanMachine.start();
 ```

@@ -2,3 +2,7 @@ Goal
 - Build a spec compliant state machine library and launch it to hackernews by monday, use xstate/fsm for first version
 
 - The key is that it's spec compliant so there is a clear end point
+
+Estimated time: 2 + 2 + .5 + 2 + .5 + .5 + 2 (9.5)
+Start time: 11:30
+Estimated finish time: 10pm

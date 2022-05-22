@@ -9,5 +9,9 @@ Steps
   - EA
     - Expected: no response
     - Actual: response
-
 - Pull repo x
+
+Sunday
+- Outlined tasks and estimated 
+- Repo: https://github.com/gkiely/fluent-machine
+- Allow condition as an alias for `cond`, cond is confusing for first time users x
