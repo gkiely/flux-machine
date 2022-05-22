@@ -1,0 +1,13 @@
+Steps
+- Message base-e group x
+- Read jsx discussion on github x
+- Message discord x
+  - AEA
+    - Expected: 0-1 responses
+    - Actual: 1 response
+- Message David K. link to discord x
+  - EA
+    - Expected: no response
+    - Actual: response
+
+- Pull repo x

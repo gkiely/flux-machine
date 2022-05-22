@@ -1,0 +1,24 @@
+- Outline tasks x
+- Estimate time x
+- Build it
+  - TDD: Write tests, include both json and jsx input 
+  - Post to group
+  - Build JSX support
+  - Build fluent api
+  - Add json support
+  - Add xml support if time
+  - Use @xstate/fsm behind the scenes, should just be createMachine that creates machine and starts service automatically
+  - See if you can get an example state chart with scion
+  https://github.com/jbeard4/SCION
+  - Message base-e group
+  - Post to twitter
+  - Push to hackernews
+
+
+Break:
+- Skim through SCXML spec
+- Reading: https://scion.scxml.io/tutorials/fundamentals
+
+
+- Outlined tasks and estimated 
+- Repo: https://github.com/gkiely/fluent-machine

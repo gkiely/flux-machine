@@ -1,0 +1,7 @@
+Culled tasks
+  - Setup landing page with docusaurus?
+  - Setup super basic docs
+  - Message base-e group
+  - Post to twitter
+  - Put on hackernews
+

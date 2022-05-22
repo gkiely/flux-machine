@@ -1,5 +1,5 @@
 # Fluent machine
-Generate xstate machines using JSX or JSON and chainable methods
+Spec compliant state machines using JSX, XML or JSON and chainable methods
 
 Example:
 ```tsx
