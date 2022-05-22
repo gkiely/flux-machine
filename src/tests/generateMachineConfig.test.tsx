@@ -1,4 +1,4 @@
-import { parseJSX, State, Transition } from '../parseJSX';
+import { generateMachineConfig, State, Transition } from '../generateMachineConfig';
 
 const sc = (
   <>
@@ -15,17 +15,16 @@ const sc = (
   </>
 );
 
-describe('parseJSX', () => {
-  it('should parse empty JSX', () => {
-    expect(parseJSX(<></>)).toEqual({
-      initial: '',
+describe('generateMachineConfig', () => {
+  it.only('should parse empty JSX', () => {
+    expect(generateMachineConfig(<></>)).toEqual({
       states: {},
     });
   });
 
   it('should parse a single state node', () => {
     expect(
-      parseJSX(
+      generateMachineConfig(
         <>
           <State id="sleeping"></State>
         </>
@@ -40,7 +39,7 @@ describe('parseJSX', () => {
 
   it('should parse a single state node with transition', () => {
     expect(
-      parseJSX(
+      generateMachineConfig(
         <>
           <State id="sleeping">
             <Transition event="walk" target="walking" />
@@ -63,7 +62,7 @@ describe('parseJSX', () => {
 
   it('should set the initial state', () => {
     expect(
-      parseJSX(
+      generateMachineConfig(
         <>
           <State id="sleeping">
             <Transition event="walk" target="walking" />
@@ -82,7 +81,7 @@ describe('parseJSX', () => {
 
   it('should parse multiple states and transitions', () => {
     expect(
-      parseJSX(
+      generateMachineConfig(
         <>
           <State id="sleeping">
             <Transition event="walk" target="walking" />
@@ -115,7 +114,7 @@ describe('parseJSX', () => {
 
   it('should parse multiple transitions', () => {
     expect(
-      parseJSX(
+      generateMachineConfig(
         <>
           <State id="sleeping">
             <Transition event="walk" target="walking" />
@@ -150,6 +149,3 @@ describe('parseJSX', () => {
     });
   });
 });
-
-xdescribe('fsm', () => {});
-xdescribe('parseSCXML', () => {});

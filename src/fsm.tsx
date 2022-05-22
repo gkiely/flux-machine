@@ -1,5 +1,5 @@
 import { WhenArgs } from './types';
-import { parseJSX } from './parseJSX';
+import { generateMachineConfig } from './generateMachineConfig';
 
 /// TODO: SCXML parser
 // export const parseSCXML = (xml: string) => {
