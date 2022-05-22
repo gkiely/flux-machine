@@ -16,8 +16,9 @@ const sc = (
 );
 
 describe('generateMachineConfig', () => {
-  it.only('should parse empty JSX', () => {
+  it('should parse empty JSX', () => {
     expect(generateMachineConfig(<></>)).toEqual({
+      initial: '',
       states: {},
     });
   });
