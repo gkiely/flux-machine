@@ -41,11 +41,11 @@ const enum nodeTypes {
   Transition = 'Transition',
 }
 
-type Config = {
-  initial: string;
-  context: Record<string, any>;
-  states: Record<string, any>;
-};
+// type Config = {
+//   initial: string;
+//   context: Record<string, any>;
+//   states: Record<string, any>;
+// };
 
 // JSX parser
 export const generateMachineConfig = <Data extends object>(jsx: JSX.Element, data?: Data) => {
@@ -58,7 +58,6 @@ export const generateMachineConfig = <Data extends object>(jsx: JSX.Element, dat
   if (!config.props.children) return output;
 
   const { props, children } = config.props;
-  // console.log(children);
 
   const states = (Array.isArray(children) ? children : [children]).filter(
     child => child.type === nodeTypes.State

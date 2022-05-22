@@ -1,4 +1,4 @@
-import { fluent } from '../fsm';
+import { fluent } from '../fluent';
 import immer from 'immer';
 
 const baseConfig = {

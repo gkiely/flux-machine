@@ -11,8 +11,8 @@
       - fluent: action, condition, assign x
       - fsm x
   - Post repo to xstate group x
-  - Build JSX support 2h
-    - Get tests to pass
+  - Build JSX support 2h x
+    - Get tests to pass x
   - Build fluent api 2h
     - Get tests to pass
   - Add <SCXML initial="state">
