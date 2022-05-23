@@ -3,6 +3,7 @@ import { fluent } from '../fluent';
 import immer from 'immer';
 
 const baseConfig = {
+  initial: '',
   states: {
     sleeping: {
       on: {

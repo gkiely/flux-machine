@@ -1,5 +1,5 @@
 import { assign, createMachine, interpret } from '@xstate/fsm';
-import { AnyObj, Config, WhenArgs } from './types';
+import { Config, WhenArgs } from './types';
 
 const handleError = (state: string | undefined, event: string | null, methodName: string) => {
   const msg = !state ? 'No state specified' : !event ? `No event specified, required for ${methodName}` : '';

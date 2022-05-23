@@ -35,7 +35,7 @@ export type State = Partial<{
 }>;
 
 export type Config = {
-  initial?: string;
+  initial: string;
   context?: AnyObj;
   states: Record<string, State>;
 };

@@ -15,3 +15,28 @@ Sunday
 - Outlined tasks and estimated 
 - Repo: https://github.com/gkiely/fluent-machine
 - Allow condition as an alias for `cond`, cond is confusing for first time users x
+
+Sunday
+- Outline tasks x
+- Estimate time x
+- Setup
+  - Setup tsconfig .5 x
+  - Setup prettier and pre-push .5 x
+- Build it
+  - Write tests 2h
+    - Stub out fsm.ts x
+    - Failing tests for modules
+      - parseJSX x
+      - fluent: action, condition, assign x
+      - fsm x
+  - Post repo to xstate group x
+  - Build JSX support 2h x
+    - Get tests to pass x
+  - Build fluent api 2h x
+    - Get tests to pass x
+  - Use @xstate/fsm behind the scenes, should just be createMachine that creates machine and service automatically .5h x
+  - fsm x
+    - write tests x
+    - get tests to pass x
+    - Fix type errors x
+    
