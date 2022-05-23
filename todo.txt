@@ -1,3 +1,4 @@
+Sunday
 - Outline tasks x
 - Estimate time x
 - Setup
@@ -15,9 +16,12 @@
     - Get tests to pass x
   - Build fluent api 2h x
     - Get tests to pass x
-
   - fsm
+    - write tests
     - get tests to pass
+
+
+  Monday
   - Add <SCXML initial="state">
     https://scion.scxml.io/tutorials/history
   - Add json support .5h
@@ -28,8 +32,10 @@
   https://github.com/jbeard4/SCION
     - If yes, update readme
   - Message base-e group
-  - Post to twitter
   - Read through xstate spec, add any additional methods 2h
+
+  Tuesday
+  - Post to twitter
   - Push to hackernews
 
 If time:

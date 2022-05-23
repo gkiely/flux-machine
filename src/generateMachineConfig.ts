@@ -1,7 +1,7 @@
 import { AnyObj, Config, FC, JSXStateProps, JSXTransitionProps } from './types';
 
-export const State: FC<JSXStateProps> = ({ children, id }) => <meta id={id}>{children}</meta>;
-export const Transition: FC<JSXTransitionProps> = ({ children, event, target }) => <></>;
+export const State: FC<JSXStateProps> = () => null;
+export const Transition: FC<JSXTransitionProps> = () => null;
 
 type Props = {
   type: string;

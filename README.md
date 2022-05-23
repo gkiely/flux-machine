@@ -9,7 +9,7 @@ Example:
 ```tsx
 import fsm from "fluent-machine";
 
-// State chart using JSX
+// Define state chart using JSX
 const humanStateChart = (
   <>
     <State initial id="sleeping">
@@ -30,10 +30,10 @@ const context = {
   speed: 0,
 };
 
-// Create a machine with JSX, SCXML or Xstate JSON
+// Create a machine (also supports SCXML or Xstate JSON)
 const humanMachine = fsm(humanStateChart, context);
 
-// Add conditions, assign or invoke side effects with chained syntax
+// Add conditions, assignments or invoke side effects with chained syntax
 humanMachine
   .when({
     state: "walking",
