@@ -1,7 +1,7 @@
-import { FC, StateProps, TransitionProps } from './types';
+import { AnyObj, Config, FC, JSXStateProps, JSXTransitionProps } from './types';
 
-export const State: FC<StateProps> = ({ children, id }) => <meta id={id}>{children}</meta>;
-export const Transition: FC<TransitionProps> = ({ children, event, target }) => <></>;
+export const State: FC<JSXStateProps> = ({ children, id }) => <meta id={id}>{children}</meta>;
+export const Transition: FC<JSXTransitionProps> = ({ children, event, target }) => <></>;
 
 type Props = {
   type: string;
@@ -19,7 +19,7 @@ type ParsedOutput = {
 };
 
 const parseJSX = (jsx: JSX.Element): ParsedOutput => {
-  const replacer = (key: string, value: Record<string, any>) => {
+  const replacer = (key: string, value: AnyObj) => {
     switch (key) {
       case '_owner':
       case '_store':
@@ -41,14 +41,8 @@ const enum nodeTypes {
   Transition = 'Transition',
 }
 
-// type Config = {
-//   initial: string;
-//   context: Record<string, any>;
-//   states: Record<string, any>;
-// };
-
 // JSX parser
-export const generateMachineConfig = <Data extends object>(jsx: JSX.Element, data?: Data) => {
+export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, data?: Data): Config => {
   const output = {
     initial: '',
     ...(data && { context: data }),

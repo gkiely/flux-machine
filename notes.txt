@@ -12,19 +12,54 @@ Prior example of fluent api:
 https://www.npmjs.com/package/finity
 
 
-
-Nested human state machine
+// Human state machine with more examples
 const humanStateChart = (
   <>
-    <State id="sleeping" initial>
+    <State initial id="sleeping">
       <Transition event="wake" target="awake" />
-    </State>    
+    </State>
     <State id="awake">
-      <State initial id="resting">
+      <State id="lying" initial>
         <Transition event="sleep" target="sleeping" />
+        <Transition event="stand" target="standing" />
+      </State>
+      <State id="standing" initial>
+        <Transition event="walk" target="walking" />
+        <Transition event="run" target="running" />
+      </State>
+      <State id="walking">
+        <Transition event="lie" target="resting" />
+        <Transition event="sit" target="sitting" />
+        <Transition event="run" target="running" />
+      </State>
+      <State id="sitting" initial>
+         <Transition event="work" target="working" />
+      </State>
+      <State initial id="working">
+        <Transition event="stand" target="standing" />
+      </State>
+      <State initial id="running">
         <Transition event="walk" target="walking" />
       </State>
-      <State initial id="walking">
+    </State>
+  </>
+);
+
+
+
+// Human state machine with more examples
+const humanStateChart = (
+  <>
+    <State initial id="sleeping">
+      <Transition event="wake" target="awake" />
+    </State>
+    <State id="awake">
+      <State id="resting" initial>
+        <Transition event="sleep" target="sleeping" />
+        <Transition event="walk" target="walking" />
+        <Transition event="work" target="working" />
+      </State>
+      <State id="walking">
         <Transition event="rest" target="resting" />
         <Transition event="run" target="running" />
       </State>
@@ -33,7 +68,7 @@ const humanStateChart = (
       </State>
       <State initial id="working">
         <Transition event="rest" target="resting" />
-      </State>
+      </State>    
     </State>
   </>
 );

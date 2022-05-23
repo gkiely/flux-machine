@@ -30,10 +30,10 @@ const context = {
   speed: 0,
 };
 
-// Create config with JSX, SCXML or Xstate JSON
+// Create a machine with JSX, SCXML or Xstate JSON
 const humanMachine = fsm(humanStateChart, context);
 
-// Chained syntax
+// Add conditions, assign or invoke side effects with chained syntax
 humanMachine
   .when({
     state: "walking",
@@ -56,5 +56,6 @@ humanMachine
     speed: 0,
   }));
 
+// Start machine
 export const machine = humanMachine.start();
 ```
