@@ -1,4 +1,5 @@
-import { generateMachineConfig, State, Transition } from '../generateMachineConfig';
+import { generateMachineConfig } from '../generateMachineConfig';
+import { State, Transition } from '../fsm';
 
 const sc = (
   <>

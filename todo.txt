@@ -16,17 +16,27 @@ Sunday
     - Get tests to pass x
   - Build fluent api 2h x
     - Get tests to pass x
+  - Use @xstate/fsm behind the scenes, should just be createMachine that creates machine and service automatically .5h x
   - fsm
     - write tests
     - get tests to pass
-
+    - Fix type errors
 
   Monday
+  - Publish to npm
+  - Add jsx cond
+    <State id="hi">
+      <Transition target="final" cond={data => data.foo === 'bar'} />
+    </State>
   - Add <SCXML initial="state">
     https://scion.scxml.io/tutorials/history
+  - Test it in the browser
+    - Do you need to use this?
+    https://rollupjs.org/guide/en/#warning-treating-module-as-external-dependency
+    https://github.com/rollup/plugins/tree/master/packages/node-resolve
   - Add json support .5h
-  - Use @xstate/fsm behind the scenes, should just be createMachine that creates machine and service automatically .5h
   - Update readme .5h
+    - Show how to render on https://xstate.js.org/viz/
     - Note that this is very much not ready for production use, until v1.0
   - See if you can get an example state chart with scion 2h
   https://github.com/jbeard4/SCION

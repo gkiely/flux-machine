@@ -1,8 +1,5 @@
 import { AnyObj, Config, FC, JSXStateProps, JSXTransitionProps } from './types';
 
-export const State: FC<JSXStateProps> = () => null;
-export const Transition: FC<JSXTransitionProps> = () => null;
-
 type Props = {
   type: string;
   children: Props | Props[];

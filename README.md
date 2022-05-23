@@ -57,5 +57,5 @@ humanMachine
   }));
 
 // Start machine
-export const machine = humanMachine.start();
+export const service = humanMachine.start();
 ```

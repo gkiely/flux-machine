@@ -1,6 +1,9 @@
 import { generateMachineConfig } from './generateMachineConfig';
 import { fluent } from './fluent';
-import { AnyObj } from './types';
+import { AnyObj, FC, JSXStateProps, JSXTransitionProps } from './types';
+
+export const State: FC<JSXStateProps> = () => null;
+export const Transition: FC<JSXTransitionProps> = () => null;
 
 /// TODO: SCXML parser
 // export const parseSCXML = (xml: string) => {
@@ -11,7 +14,7 @@ import { AnyObj } from './types';
 
 // convert JSX, SCXML JSON to xstate/fsm
 // return fluent api
-export default (stateChart: JSX.Element, data: AnyObj) => {
+export default <Data extends AnyObj>(stateChart: JSX.Element, data?: Data) => {
   const machineConfig = generateMachineConfig(stateChart, data);
-  return fluent(machineConfig);
+  return fluent<Data>(machineConfig);
 };

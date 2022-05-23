@@ -6,13 +6,13 @@ const handleError = (state: string | undefined, event: string | null, methodName
   throw new Error(msg);
 };
 
-export const fluent = (machineConfig: Config) => {
+export const fluent = <Data>(machineConfig: Config) => {
   const config = structuredClone(machineConfig);
   let currentState = config.initial;
   let currentEvent: string | null = null;
 
   return {
-    action(fn: () => any) {
+    action(fn: (data: Data) => void) {
       if (!currentState || !currentEvent) {
         return handleError(currentState, currentEvent, 'action');
       }
@@ -25,7 +25,7 @@ export const fluent = (machineConfig: Config) => {
       }
       return this;
     },
-    assign(fn: (data: Config['context']) => any) {
+    assign(fn: (data: Data) => Partial<Data>) {
       if (!currentState || !currentEvent) {
         return handleError(currentState, currentEvent, 'assign');
       }
@@ -41,7 +41,7 @@ export const fluent = (machineConfig: Config) => {
     catch() {
       return this;
     },
-    cond(fn: () => any) {
+    cond(fn: (data: Data) => boolean) {
       if (!currentState || !currentEvent) {
         return handleError(currentState, currentEvent, 'action');
       }
@@ -54,7 +54,7 @@ export const fluent = (machineConfig: Config) => {
       return this;
     },
     // Alias for cond
-    condition(fn: () => any) {
+    condition(fn: (data: Data) => boolean) {
       this.cond(fn);
       return this;
     },
