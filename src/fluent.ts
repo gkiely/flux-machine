@@ -1,5 +1,10 @@
-import { assign } from '@xstate/fsm';
+import { assign, createMachine, interpret } from '@xstate/fsm';
 import { AnyObj, Config, WhenArgs } from './types';
+
+const handleError = (state: string | undefined, event: string | null, methodName: string) => {
+  const msg = !state ? 'No state specified' : !event ? `No event specified, required for ${methodName}` : '';
+  throw new Error(msg);
+};
 
 export const fluent = (machineConfig: Config) => {
   const config = structuredClone(machineConfig);
@@ -8,11 +13,8 @@ export const fluent = (machineConfig: Config) => {
 
   return {
     action(fn: () => any) {
-      if (!currentState) {
-        throw new Error('No state specified');
-      }
-      if (!currentEvent) {
-        throw new Error('No event specified, required for action');
+      if (!currentState || !currentEvent) {
+        return handleError(currentState, currentEvent, 'action');
       }
 
       const transition = config.states?.[currentState]?.on?.[currentEvent];
@@ -24,11 +26,8 @@ export const fluent = (machineConfig: Config) => {
       return this;
     },
     assign(fn: (data: Config['context']) => any) {
-      if (!currentState) {
-        throw new Error('No state specified');
-      }
-      if (!currentEvent) {
-        throw new Error('No event specified, required for assign');
+      if (!currentState || !currentEvent) {
+        return handleError(currentState, currentEvent, 'assign');
       }
       const transition = config.states?.[currentState]?.on?.[currentEvent];
 
@@ -43,11 +42,8 @@ export const fluent = (machineConfig: Config) => {
       return this;
     },
     cond(fn: () => any) {
-      if (!currentState) {
-        throw new Error('No state specified');
-      }
-      if (!currentEvent) {
-        throw new Error('No event specified, required for condition');
+      if (!currentState || !currentEvent) {
+        return handleError(currentState, currentEvent, 'action');
       }
 
       const transition = config.states?.[currentState]?.on?.[currentEvent];
@@ -84,8 +80,8 @@ export const fluent = (machineConfig: Config) => {
       return this;
     },
     start() {
-      // return interpreted machine with @xstate/fsm
-      // return interpret(createMachine(config)).start();
+      // @ts-expect-error
+      return interpret(createMachine(config)).start();
     },
   };
 };

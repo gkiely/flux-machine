@@ -18,11 +18,19 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": true,
+    "declaration": true,
     "paths": {
       "src/*": ["./src/*"]
-    }
+    },
+    "outDir": "dist",
   },
   "include": [
-    "./src/**/*"
+    "src/**/*"
   ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

@@ -1,5 +1,6 @@
 import { generateMachineConfig } from './generateMachineConfig';
 import { fluent } from './fluent';
+import { AnyObj } from './types';
 
 /// TODO: SCXML parser
 // export const parseSCXML = (xml: string) => {
@@ -10,4 +11,7 @@ import { fluent } from './fluent';
 
 // convert JSX, SCXML JSON to xstate/fsm
 // return fluent api
-export default (stateChart: any, data: any) => {};
+export default (stateChart: JSX.Element, data: AnyObj) => {
+  const machineConfig = generateMachineConfig(stateChart, data);
+  return fluent(machineConfig);
+};

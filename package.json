@@ -2,8 +2,20 @@
   "name": "fluent-machine",
   "version": "0.1.0",
   "description": "Spec compliant state machines using JSX, XML or JSON and chainable methods",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.min.mjs",
+  "unpkg": "dist/index.umd.min.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && npm run pre-commit && tsc --noEmit false && npm run bundle:esm && npm run bundle:esm:min && npm run bundle:umd && npm run bundle:umd:min",
+    "bundle:esm": "rollup dist/index.js --file dist/index.mjs --format esm",
+    "bundle:esm:min": "terser --ecma 6 --compress --mangle --module -o dist/index.min.mjs -- dist/index.mjs && gzip -9 -c dist/index.min.mjs > dist/index.min.mjs.gz",
+    "bundle:umd": "rollup dist/index.js --file dist/index.umd.js --format umd --name fluent-machine",
+    "bundle:umd:min": "terser --ecma 6 --compress --mangle -o dist/index.umd.min.js -- dist/index.umd.js && gzip -9 -c dist/index.umd.min.js > dist/index.umd.min.js.gz",
     "test": "jest",
     "pre-push": "tsc && prettier src --check && npm test",
     "pre-commit": "tsc && prettier src --write --loglevel error"
@@ -42,7 +54,10 @@
     "pre-commit": "^1.2.2",
     "pre-push": "^0.1.2",
     "prettier": "2.6.2",
-    "react": "^18.1.0"
+    "react": "^18.1.0",
+    "rollup": "^2.74.1",
+    "terser": "^5.13.1",
+    "typescript": "^4.6.4"
   },
   "dependencies": {
     "@xstate/fsm": "^2.0.0"

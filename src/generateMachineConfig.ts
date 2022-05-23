@@ -36,10 +36,15 @@ const parseJSX = (jsx: JSX.Element): ParsedOutput => {
   return JSON.parse(str);
 };
 
-const enum nodeTypes {
-  State = 'State',
-  Transition = 'Transition',
-}
+const nodeTypes = {
+  State: 'State',
+  Transition: 'Transition',
+} as const;
+
+const getChildren = (
+  children: Props['children'],
+  nodeType: typeof nodeTypes[keyof typeof nodeTypes]
+): Props[] => (Array.isArray(children) ? children : [children]).filter(child => nodeType);
 
 // JSX parser
 export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, data?: Data): Config => {
@@ -53,9 +58,7 @@ export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, dat
 
   const { props, children } = config.props;
 
-  const states = (Array.isArray(children) ? children : [children]).filter(
-    child => child.type === nodeTypes.State
-  );
+  const states = getChildren(children, nodeTypes.State);
 
   if (!states) return output;
 
@@ -64,9 +67,7 @@ export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, dat
     acc[id] = {};
     if (!children) return acc;
 
-    const transitions = (Array.isArray(children) ? children : [children]).filter(
-      child => child.type === nodeTypes.Transition
-    );
+    const transitions = getChildren(children, nodeTypes.Transition);
 
     acc[id] = {
       on: transitions.reduce((acc: { [k: string]: {} }, transition) => {
