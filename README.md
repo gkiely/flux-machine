@@ -2,8 +2,6 @@
 
 Spec compliant state machines using JSX, SCXML or JSON and chainable methods.
 
-SCXML specification: https://www.w3.org/TR/scxml/
-
 Example:
 
 ```tsx
@@ -59,6 +57,39 @@ humanMachine
 // Start machine
 export const service = humanMachine.start();
 ```
+
+## Features
+
+[SCXML specification](https://www.w3.org/TR/scxml)
+
+| SCXML specification | **flux-machine** |
+| ------------------- | :--------------: |
+| scxml               |        ❌        |
+| state               |        ✅        |
+| parallel            |        ❌        |
+| transition          |        ✅        |
+| initial             |        ✅        |
+| final               |        ❌        |
+| onentry             |        ❌        |
+| onexit              |        ❌        |
+| history             |        ❌        |
+| raise               |        ❌        |
+| if                  |        ❌        |
+| elseif              |        ❌        |
+| else                |        ❌        |
+| foreach             |        ❌        |
+| log                 |        ❌        |
+| datamodel           |        ✅        |
+| data                |        ✅        |
+| assign              |        ✅        |
+| donedata            |        ❌        |
+| content             |        ❌        |
+| param               |        ❌        |
+| script              |        ❌        |
+| send                |        ✅        |
+| cancel              |        ❌        |
+| invoke              |        ✅        |
+| finalize            |        ❌        |
 
 ## FAQ
 

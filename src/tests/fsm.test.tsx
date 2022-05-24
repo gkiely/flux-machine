@@ -23,6 +23,12 @@ describe('fsm', () => {
       speed: 0,
     });
 
+    // Potentially move to this syntax
+    // machine.when('sleeping')
+    // .transition('walk')
+    // .cond(({ speed }) => speed > 0);
+    // .transition('sleep');
+
     machine
       .when({
         state: 'sleeping',
@@ -32,6 +38,7 @@ describe('fsm', () => {
 
     const service = machine.start();
     service.send('walk');
+
     expect(service.state.value).toBe('sleeping');
   });
   it('updates context with assign', () => {
