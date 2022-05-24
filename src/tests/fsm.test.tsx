@@ -76,6 +76,7 @@ describe('fsm', () => {
     expect(service.state.value).toBe('sleeping');
   });
 
+  /// TODO
   // it('invokes a promise', () => {
   //   expect(1).toEqual(2);
   // });

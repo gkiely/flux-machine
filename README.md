@@ -29,13 +29,13 @@ const humanStateChart = (
   </>
 );
 
-const context = {
+const data = {
   energy: 10,
   speed: 0,
 };
 
 // Create a machine (also supports SCXML or Xstate JSON)
-const humanMachine = fsm(humanStateChart, context);
+const humanMachine = fsm(humanStateChart, data);
 
 // Add conditions, assignments or invoke side effects with chained syntax
 humanMachine
@@ -43,11 +43,11 @@ humanMachine
     state: "walking",
     event: "run",
   })
-  .cond((context) => {
-    return context.energy > 5;
+  .cond((data) => {
+    return data.energy > 5;
   })
   .assign((context) => ({
-    energy: context.energy--,
+    energy: data.energy--,
     speed: 10,
   }));
 
@@ -55,8 +55,8 @@ humanMachine
   .when({
     state: "sleeping",
   })
-  .assign((context) => ({
-    energy: context.energy++,
+  .assign((data) => ({
+    energy: data.energy++,
     speed: 0,
   }));
 
@@ -68,38 +68,45 @@ export const service = humanMachine.start();
 
 [SCXML specification](https://www.w3.org/TR/scxml)
 
-| SCXML specification | **flux-machine** | Supported via     |
-| ------------------- | :--------------: | ----------------- |
-| scxml               |        ✅        | `<SCXML>`         |
-| state               |        ✅        | `<State>`         |
-| parallel            |        ❌        |                   |
-| transition          |        ✅        | `<Transition>`    |
-| initial             |        ✅        | `<State initial>` |
-| final               |        ❌        |                   |
-| onentry             |        ❌        |                   |
-| onexit              |        ❌        |                   |
-| history             |        ❌        |                   |
-| raise               |        ❌        |                   |
-| if                  |        ❌        |                   |
-| elseif              |        ❌        |                   |
-| else                |        ❌        |                   |
-| foreach             |        ❌        |                   |
-| log                 |        ❌        |                   |
-| datamodel           |        ✅        |                   |
-| data                |        ✅        |                   |
-| assign              |        ✅        |                   |
-| donedata            |        ❌        |                   |
-| content             |        ❌        |                   |
-| param               |        ❌        |                   |
-| script              |        ❌        |                   |
-| send                |        ✅        | `.invoke()`       |
-| cancel              |        ❌        |                   |
-| invoke              |        ✅        | `.invoke()`       |
-| finalize            |        ❌        |                   |
+| SCXML specification | flux-machine | Supported via     |
+| ------------------- | :----------: | ----------------- |
+| scxml               |      ✅      | `<SCXML>`         |
+| state               |      ✅      | `<State>`         |
+| parallel            |      ❌      |                   |
+| transition          |      ✅      | `<Transition>`    |
+| initial             |      ✅      | `<State initial>` |
+| final               |      ❌      |                   |
+| onentry             |      ✅      | `.onEntry()`      |
+| onexit              |      ✅      | `.onExit()`       |
+| history             |      ❌      |                   |
+| raise               |      ❌      |                   |
+| if                  |      ❌      |                   |
+| elseif              |      ❌      |                   |
+| else                |      ❌      |                   |
+| foreach             |      ❌      |                   |
+| log                 |      ❌      |                   |
+| datamodel           |      ✅      | `fsm(..., data)`  |
+| data                |      ✅      | `fsm(..., data)`  |
+| assign              |      ✅      | `.assign()`       |
+| donedata            |      ❌      |                   |
+| content             |      ❌      |                   |
+| param               |      ❌      |                   |
+| script              |      ✅      | `.action()`       |
+| send                |      ✅      | `.invoke()`       |
+| cancel              |      ❌      |                   |
+| invoke              |      ✅      | `.invoke()`       |
+| finalize            |      ❌      |                   |
+
+## Additional features
+
+| Feature | flux-machine |
+| ------- | :----------: |
+| JSX     |      ✅      |
+| XML     |      ❌      |
+| JSON    |      ❌      |
 
 ## FAQ
 
 ### Can I use this in production?
 
 - I do not recommend it until it reaches V1.0.0
-- It's an experiment that I coded in a weekend it and only supports the test cases in `src/tests/fsm.test.tsx`

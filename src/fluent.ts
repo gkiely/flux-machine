@@ -123,10 +123,28 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
     delay() {
       return this;
     },
-    entry() {
+    onEntry(fn: (data: Data) => void) {
+      if (!currentState) {
+        return handleError(currentState, null, 'entry');
+      }
+      const state = config.states?.[currentState];
+      if (!state) return this;
+
+      state.entry ??= [];
+      state.entry.push(fn);
+
       return this;
     },
-    exit() {
+    onExit(fn: (data: Data) => void) {
+      if (!currentState) {
+        return handleError(currentState, null, 'entry');
+      }
+      const state = config.states?.[currentState];
+      if (!state) return this;
+
+      state.exit ??= [];
+      state.exit.push(fn);
+
       return this;
     },
     get: () => config,

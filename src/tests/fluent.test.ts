@@ -167,4 +167,44 @@ describe('assign', () => {
       expect(fsm.get()).toEqual(result);
     });
   });
+
+  describe('onEntry', () => {
+    it('should add an entry handler', () => {
+      const fn = jest.fn();
+      const config = { ...baseConfig };
+      const fsm = fluent(config)
+        .when({
+          state: 'sleeping',
+          event: 'wake',
+        })
+        .onEntry(fn);
+
+      const result = immer(config, draft => {
+        // @ts-expect-error
+        draft.states.sleeping.entry = [fn];
+      });
+
+      expect(fsm.get()).toEqual(result);
+    });
+  });
+
+  describe('onExit', () => {
+    it('should add an exit handler', () => {
+      const fn = jest.fn();
+      const config = { ...baseConfig };
+      const fsm = fluent(config)
+        .when({
+          state: 'sleeping',
+          event: 'wake',
+        })
+        .onExit(fn);
+
+      const result = immer(config, draft => {
+        // @ts-expect-error
+        draft.states.sleeping.exit = [fn];
+      });
+
+      expect(fsm.get()).toEqual(result);
+    });
+  });
 });
