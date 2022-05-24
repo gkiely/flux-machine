@@ -2,10 +2,16 @@
 
 Spec compliant state machines using JSX, SCXML or JSON and chainable methods.
 
+Installation:
+
+```sh
+npm install flux-machine
+```
+
 Example:
 
 ```tsx
-import fsm from "fluent-machine";
+import fsm, { State, Transition } from "flux-machine";
 
 // Define state chart using JSX
 const humanStateChart = (
@@ -62,38 +68,38 @@ export const service = humanMachine.start();
 
 [SCXML specification](https://www.w3.org/TR/scxml)
 
-| SCXML specification | **flux-machine** |
-| ------------------- | :--------------: |
-| scxml               |        ✅        |
-| state               |        ✅        |
-| parallel            |        ❌        |
-| transition          |        ✅        |
-| initial             |        ❌        |
-| final               |        ❌        |
-| onentry             |        ❌        |
-| onexit              |        ❌        |
-| history             |        ❌        |
-| raise               |        ❌        |
-| if                  |        ❌        |
-| elseif              |        ❌        |
-| else                |        ❌        |
-| foreach             |        ❌        |
-| log                 |        ❌        |
-| datamodel           |        ✅        |
-| data                |        ✅        |
-| assign              |        ✅        |
-| donedata            |        ❌        |
-| content             |        ❌        |
-| param               |        ❌        |
-| script              |        ❌        |
-| send                |        ✅        |
-| cancel              |        ❌        |
-| invoke              |        ✅        |
-| finalize            |        ❌        |
+| SCXML specification | **flux-machine** | Supported via     |
+| ------------------- | :--------------: | ----------------- |
+| scxml               |        ✅        | `<SCXML>`         |
+| state               |        ✅        | `<State>`         |
+| parallel            |        ❌        |                   |
+| transition          |        ✅        | `<Transition>`    |
+| initial             |        ✅        | `<State initial>` |
+| final               |        ❌        |                   |
+| onentry             |        ❌        |                   |
+| onexit              |        ❌        |                   |
+| history             |        ❌        |                   |
+| raise               |        ❌        |                   |
+| if                  |        ❌        |                   |
+| elseif              |        ❌        |                   |
+| else                |        ❌        |                   |
+| foreach             |        ❌        |                   |
+| log                 |        ❌        |                   |
+| datamodel           |        ✅        |                   |
+| data                |        ✅        |                   |
+| assign              |        ✅        |                   |
+| donedata            |        ❌        |                   |
+| content             |        ❌        |                   |
+| param               |        ❌        |                   |
+| script              |        ❌        |                   |
+| send                |        ✅        | `.invoke()`       |
+| cancel              |        ❌        |                   |
+| invoke              |        ✅        | `.invoke()`       |
+| finalize            |        ❌        |                   |
 
 ## FAQ
 
-### Should I use this in production?
+### Can I use this in production?
 
-- No, not until it reaches V1.0.0
-- It's an experiment that I coded in a weekend it and only supports the conditions in `src/tests/fsm.test.tsx`
+- I do not recommend it until it reaches V1.0.0
+- It's an experiment that I coded in a weekend it and only supports the test cases in `src/tests/fsm.test.tsx`

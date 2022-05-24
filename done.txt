@@ -13,7 +13,7 @@ Steps
 
 Sunday
 - Outlined tasks and estimated 
-- Repo: https://github.com/gkiely/fluent-machine
+- Repo: https://github.com/gkiely/flux-machine
 - Allow condition as an alias for `cond`, cond is confusing for first time users x
 
 Sunday

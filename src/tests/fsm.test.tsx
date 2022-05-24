@@ -1,14 +1,14 @@
-import fsm, { SCXML, State, Transition } from '../fsm';
+import fsm, { State, Transition } from '../fsm';
 
 const stateChart = (
-  <SCXML>
+  <>
     <State initial id="sleeping">
       <Transition event="walk" target="walking" />
     </State>
     <State id="walking">
       <Transition event="sleep" target="sleeping" />
     </State>
-  </SCXML>
+  </>
 );
 
 describe('fsm', () => {
@@ -67,6 +67,13 @@ describe('fsm', () => {
     const service = machine.start();
     service.send('walk');
     expect(fn).toBeCalledTimes(1);
+  });
+
+  it('supports initial', () => {
+    const machine = fsm(stateChart);
+    expect(machine.get().initial).toBe('sleeping');
+    const service = machine.start();
+    expect(service.state.value).toBe('sleeping');
   });
 
   // it('invokes a promise', () => {
