@@ -1,6 +1,6 @@
 {
   "name": "fluent-machine",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Spec compliant state machines using JSX, XML or JSON and chainable methods",
   "main": "dist/index.js",
   "module": "dist/index.min.mjs",
