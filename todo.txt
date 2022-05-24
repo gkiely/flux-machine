@@ -1,8 +1,8 @@
 Monday
 - Invoke, then, catch x
-- initial (on state node and scxml node)
-- Push to reddit
-- Test out npm
+- initial (on state node and scxml node) x
+- Push to reddit x
+- Test out npm install
 
 
 - SCXML
