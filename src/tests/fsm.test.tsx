@@ -1,14 +1,14 @@
-import fsm, { State, Transition } from '../fsm';
+import fsm, { SCXML, State, Transition } from '../fsm';
 
 const stateChart = (
-  <>
+  <SCXML>
     <State initial id="sleeping">
       <Transition event="walk" target="walking" />
     </State>
     <State id="walking">
       <Transition event="sleep" target="sleeping" />
     </State>
-  </>
+  </SCXML>
 );
 
 describe('fsm', () => {
@@ -22,12 +22,6 @@ describe('fsm', () => {
     const machine = fsm(stateChart, {
       speed: 0,
     });
-
-    // Potentially move to this syntax
-    // machine.when('sleeping')
-    // .transition('walk')
-    // .cond(({ speed }) => speed > 0);
-    // .transition('sleep');
 
     machine
       .when({

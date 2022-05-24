@@ -12,6 +12,10 @@ declare global {
 
 export type AnyObj = Record<string, any>;
 
+export type JSXSCXMLProps = {
+  initial?: string;
+};
+
 export type JSXStateProps = {
   id: string;
   initial?: boolean;

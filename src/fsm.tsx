@@ -1,7 +1,8 @@
 import { generateMachineConfig } from './generateMachineConfig';
 import { fluent } from './fluent';
-import { AnyObj, FC, JSXStateProps, JSXTransitionProps } from './types';
+import { AnyObj, FC, JSXSCXMLProps, JSXStateProps, JSXTransitionProps } from './types';
 
+export const SCXML: FC<JSXSCXMLProps> = () => null;
 export const State: FC<JSXStateProps> = () => null;
 export const Transition: FC<JSXTransitionProps> = () => null;
 

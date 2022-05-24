@@ -64,11 +64,11 @@ export const service = humanMachine.start();
 
 | SCXML specification | **flux-machine** |
 | ------------------- | :--------------: |
-| scxml               |        ❌        |
+| scxml               |        ✅        |
 | state               |        ✅        |
 | parallel            |        ❌        |
 | transition          |        ✅        |
-| initial             |        ✅        |
+| initial             |        ❌        |
 | final               |        ❌        |
 | onentry             |        ❌        |
 | onexit              |        ❌        |

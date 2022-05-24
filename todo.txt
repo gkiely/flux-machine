@@ -1,5 +1,6 @@
 Monday
 - Invoke, then, catch x
+- initial (on state node and scxml node)
 
 
 - SCXML
