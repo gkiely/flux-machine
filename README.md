@@ -40,6 +40,15 @@ const humanMachine = fsm(humanStateChart, data);
 // Add conditions, assignments or invoke side effects with chained syntax
 humanMachine
   .when({
+    state: "sleeping",
+    event: "walk",
+  })
+  .assign(() => ({
+    speed: 1,
+  }));
+
+humanMachine
+  .when({
     state: "walking",
     event: "run",
   })
@@ -62,6 +71,11 @@ humanMachine
 
 // Start machine
 export const service = humanMachine.start();
+
+// Interact with machine
+service.send("walk");
+console.log(service.state.value); // walking
+console.log(service.state.context); // { speed: 1 }
 ```
 
 ## Features
