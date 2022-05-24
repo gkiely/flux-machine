@@ -106,7 +106,7 @@ console.log(service.state.context); // { speed: 1 }
 | content             |      ❌      |                   |
 | param               |      ❌      |                   |
 | script              |      ✅      | `.action()`       |
-| send                |      ✅      | `.invoke()`       |
+| send                |      ✅      | `.send()`         |
 | cancel              |      ❌      |                   |
 | invoke              |      ✅      | `.invoke()`       |
 | finalize            |      ❌      |                   |
