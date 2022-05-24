@@ -1,12 +1,17 @@
-- Write tests
-  - parseSCXML
-- Add xml support if time 2h
-
-- Setup vite project so I can have json input and output, or do this later?
-https://vitejs.dev/guide/#scaffolding-your-first-vite-project
-
-- .else for condition
-
 V2
+- Add json support .5h
+- parseSCXML
+- Add xml support if time 2h
+- Vite project for testing
+  - examples
+  - https://vitejs.dev/guide/#scaffolding-your-first-vite-project
+- .else for condition
 - Nested states
 - Parallel states
+- Add jsx cond
+  <State id="hi">
+    <Transition target="final" cond={data => data.foo === 'bar'} />
+  </State>
+
+- Add <SCXML initial="state">
+  https://scion.scxml.io/tutorials/history

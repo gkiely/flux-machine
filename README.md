@@ -59,3 +59,10 @@ humanMachine
 // Start machine
 export const service = humanMachine.start();
 ```
+
+## FAQ
+
+### Should I use this in production?
+
+- No, not until it reaches V1.0.0
+- It's an experiment that I coded in a weekend it and only supports the conditions in `src/tests/fsm.test.tsx`

@@ -1,13 +1,6 @@
 Monday
 - Invoke, then, catch x
-- Add json support .5h
 
-- Add jsx cond
-  <State id="hi">
-    <Transition target="final" cond={data => data.foo === 'bar'} />
-  </State>
-- Add <SCXML initial="state">
-  https://scion.scxml.io/tutorials/history
 - Test it in the browser
   - Do you need to use this?
   https://rollupjs.org/guide/en/#warning-treating-module-as-external-dependency
