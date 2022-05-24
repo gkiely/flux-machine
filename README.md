@@ -124,3 +124,6 @@ console.log(service.state.context); // { speed: 1 }
 ### Can I use this in production?
 
 - I do not recommend it until it reaches V1.0.0
+
+### Why the name flux?
+- [(Flu)ent](https://en.wikipedia.org/wiki/Fluent_interface) [(X)ML](https://www.w3.org/XML)
