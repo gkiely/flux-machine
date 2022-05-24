@@ -1,5 +1,14 @@
 import type { FC as FCR, PropsWithChildren } from 'react';
+import type { assign } from '@xstate/fsm';
 export type FC<T> = FCR<PropsWithChildren<T>>;
+
+// Fixes Object.keys
+// https://stackoverflow.com/questions/52856496/typescript-object-keys-return-string
+declare global {
+  interface ObjectConstructor {
+    keys<T>(obj: T): Array<keyof T>;
+  }
+}
 
 export type AnyObj = Record<string, any>;
 
@@ -21,23 +30,28 @@ export type WhenArgs = {
 // Xstate types
 export type Transition = {
   target: string;
-  actions?: Function[];
+  actions?: (ReturnType<typeof assign> | Function)[];
   cond?: Function;
 };
 
-export type State = Partial<{
+export type State<Data> = Partial<{
   initial: string;
   entry: Function[];
   exit: Function[];
   always: Function[];
   on: Record<string, Transition>;
-  states: Record<string, State>;
+  states: Record<string, State<Data>>;
+  invoke: {
+    src: (data: Data) => Promise<AnyObj | void>;
+    onDone?: Transition;
+    onError?: Transition;
+  };
 }>;
 
-export type Config = {
+export type Config<Data> = {
   initial: string;
-  context?: AnyObj;
-  states: Record<string, State>;
+  context?: Data;
+  states: Record<string, State<Data>>;
 };
 
 export function assert(value: unknown): asserts value {

@@ -1,4 +1,4 @@
-import { AnyObj, Config, FC, JSXStateProps, JSXTransitionProps } from './types';
+import { AnyObj, Config } from './types';
 
 type Props = {
   type: string;
@@ -44,7 +44,7 @@ const getChildren = (
 ): Props[] => (Array.isArray(children) ? children : [children]).filter(child => nodeType);
 
 // JSX parser
-export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, data?: Data): Config => {
+export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, data?: Data): Config<Data> => {
   const output = {
     initial: '',
     ...(data && { context: data }),

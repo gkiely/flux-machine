@@ -67,4 +67,8 @@ describe('fsm', () => {
     service.send('walk');
     expect(fn).toBeCalledTimes(1);
   });
+
+  // it('invokes a promise', () => {
+  //   expect(1).toEqual(2);
+  // });
 });

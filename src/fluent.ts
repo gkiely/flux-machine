@@ -1,17 +1,82 @@
 import { assign, createMachine, interpret } from '@xstate/fsm';
-import { Config, WhenArgs } from './types';
+import { AnyObj, Config, WhenArgs } from './types';
+import { omit } from './utils';
 
 const handleError = (state: string | undefined, event: string | null, methodName: string) => {
   const msg = !state ? 'No state specified' : !event ? `No event specified, required for ${methodName}` : '';
   throw new Error(msg);
 };
 
-export const fluent = <Data>(machineConfig: Config) => {
+type InvokeKey = 'onError' | 'onDone';
+
+export const fluent = <Data>(machineConfig: Config<Data>) => {
   const config = structuredClone(machineConfig);
   let currentState = config.initial;
   let currentEvent: string | null = null;
 
-  return {
+  // --- Invoke ---
+  const catchThenableMethods = {
+    assign(fn: (data: Data) => Partial<Data>, key: InvokeKey) {
+      const transition = config.states?.[currentState]?.invoke?.[key];
+
+      if (transition) {
+        transition.actions ??= [];
+        transition.actions.push(assign(fn));
+      }
+      return {
+        ...fluentMethods,
+      };
+    },
+    target(state: string, key: InvokeKey): void {
+      if (!currentState) {
+        return handleError(currentState, null, 'invoke');
+      }
+
+      const transition = config.states?.[currentState]?.invoke;
+      if (transition) {
+        transition[key] = {
+          target: state,
+        };
+      }
+    },
+  };
+
+  const catchableMethods = {
+    assign(fn: (data: Data) => Partial<Data>) {
+      catchThenableMethods.assign(fn, 'onError');
+      return {
+        ...fluentMethods,
+      };
+    },
+    target(state: string) {
+      catchThenableMethods.target(state, 'onError');
+      return {
+        ...fluentMethods,
+        ...omit(catchableMethods, 'target'),
+      };
+    },
+  };
+
+  const thenableMethods = {
+    assign(fn: (data: Data) => Partial<Data>) {
+      catchThenableMethods.assign(fn, 'onDone');
+      return {
+        ...fluentMethods,
+        catch: catchableMethods,
+      };
+    },
+    target(state: string) {
+      catchThenableMethods.target(state, 'onDone');
+      return {
+        ...fluentMethods,
+        catch: catchableMethods,
+        ...omit(thenableMethods, 'target'),
+      };
+    },
+  };
+  // --- /Invoke ---
+
+  const fluentMethods = {
     action(fn: (data: Data) => void) {
       if (!currentState || !currentEvent) {
         return handleError(currentState, currentEvent, 'action');
@@ -33,14 +98,11 @@ export const fluent = <Data>(machineConfig: Config) => {
 
       if (transition) {
         transition.actions ??= [];
-        // @ts-expect-error
         transition.actions.push(assign(fn));
       }
       return this;
     },
-    catch() {
-      return this;
-    },
+
     cond(fn: (data: Data) => boolean) {
       if (!currentState || !currentEvent) {
         return handleError(currentState, currentEvent, 'action');
@@ -61,27 +123,47 @@ export const fluent = <Data>(machineConfig: Config) => {
     delay() {
       return this;
     },
-    get: () => config,
     entry() {
       return this;
     },
     exit() {
       return this;
     },
-    invoke() {
-      return this;
+    get: () => config,
+    invoke(fn: (data: Data) => Promise<AnyObj | void>) {
+      if (!currentState) {
+        return handleError(currentState, null, 'invoke');
+      }
+      const state = config.states?.[currentState];
+      if (!state) {
+        return {
+          ...this,
+          catch: catchableMethods,
+          then: thenableMethods,
+        };
+      }
+
+      state.invoke = {
+        src: fn,
+      };
+      return {
+        ...this,
+        catch: catchableMethods,
+        then: thenableMethods,
+      };
     },
-    then() {
-      return this;
-    },
+  };
+
+  return {
+    get: () => config,
     when({ state, event }: WhenArgs) {
       currentState = state;
       currentEvent = event ?? null;
-      return this;
+      return fluentMethods;
     },
     start() {
       // @ts-expect-error
-      return interpret(createMachine(config)).start();
+      return interpret<Data>(createMachine(config)).start();
     },
   };
 };

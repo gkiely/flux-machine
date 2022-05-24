@@ -39,4 +39,4 @@ Sunday
     - write tests x
     - get tests to pass x
     - Fix type errors x
-    
+- Publish to npm x

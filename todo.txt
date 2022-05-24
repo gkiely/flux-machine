@@ -1,12 +1,6 @@
-Read:
-https://catchts.com/infer-arguments
-
 Monday
-- Publish to npm
-- Invoke, catch, finally
-- .else for condition
-- Nested states
-- Parallel states
+- Invoke, then, catch x
+- Add json support .5h
 
 - Add jsx cond
   <State id="hi">
@@ -18,7 +12,6 @@ Monday
   - Do you need to use this?
   https://rollupjs.org/guide/en/#warning-treating-module-as-external-dependency
   https://github.com/rollup/plugins/tree/master/packages/node-resolve
-- Add json support .5h
 - Update readme .5h
   - Show how to render on https://xstate.js.org/viz/
   - Note that this is very much not ready for production use, until v1.0

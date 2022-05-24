@@ -107,4 +107,64 @@ describe('assign', () => {
 
     expect(fsm).toEqual(result);
   });
+
+  describe('invoke', () => {
+    it('should add an invoke', () => {
+      const fetchMock = jest.fn((url: string) => Promise.resolve({ data: 1 }));
+      const invoke = jest.fn(() => fetchMock('./data.json'));
+      const config = {
+        ...baseConfig,
+      };
+      const fsm = fluent(config)
+        .when({
+          state: 'sleeping',
+        })
+        .invoke(invoke)
+        .get();
+
+      const result = immer(config, draft => {
+        // @ts-expect-error
+        draft.states.sleeping.invoke = {
+          src: invoke,
+        };
+      });
+
+      expect(fsm).toEqual(result);
+    });
+
+    it('should add an onDone and onError to invoke', () => {
+      const fetchMock = jest.fn((url: string) => Promise.resolve({ data: 1 }));
+      const invoke = jest.fn(() => fetchMock('./data.json'));
+      const fn = jest.fn(data => ({ speed: data?.speed + 1 }));
+      const config = {
+        ...baseConfig,
+      };
+      const fsm = fluent(config)
+        .when({
+          state: 'sleeping',
+        })
+        .invoke(invoke)
+        .then.target('awake')
+        .assign(fn)
+        .catch.target('awake')
+        .assign(fn);
+
+      const result = immer(config, draft => {
+        // @ts-expect-error
+        draft.states.sleeping.invoke = {
+          src: invoke,
+          onDone: {
+            target: 'awake',
+            actions: [assign(fn)],
+          },
+          onError: {
+            target: 'awake',
+            actions: [assign(fn)],
+          },
+        };
+      });
+
+      expect(fsm.get()).toEqual(result);
+    });
+  });
 });

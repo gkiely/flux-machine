@@ -1,4 +1,4 @@
-# Fluent machine (work in progress)
+# Fluent machine
 
 Spec compliant state machines using JSX, SCXML or JSON and chainable methods.
 
