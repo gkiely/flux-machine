@@ -1,5 +1,5 @@
 import { assign } from '@xstate/fsm';
-import { fluent } from '../fluent';
+import { fluent, handleError } from '../fluent';
 import immer from 'immer';
 
 const baseConfig = {
@@ -14,6 +14,23 @@ const baseConfig = {
     },
   },
 };
+
+describe('handleError', () => {
+  const testError = (...args: Parameters<typeof handleError>) => {
+    return () => handleError(...args);
+  };
+  it('should throw an error if no state is specified', () => {
+    expect(testError(null, null, 'action')).toThrowError('No state specified, required for action');
+  });
+  it('should throw an error if no event is specified', () => {
+    expect(testError('sleeping', null, 'action')).toThrowError('No event specified, required for action');
+  });
+  it('should throw an error if no event is specified', () => {
+    expect(testError('state', 'event', 'action')).toThrowError(
+      'Unexpected error, state and event provided for action'
+    );
+  });
+});
 
 describe('action', () => {
   it('should add an action', () => {

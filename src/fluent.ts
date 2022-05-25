@@ -2,9 +2,13 @@ import { assign, createMachine, interpret } from '@xstate/fsm';
 import { AnyObj, Config, WhenArgs } from './types';
 import { omit } from './utils';
 
-const handleError = (state: string | undefined, event: string | null, methodName: string) => {
-  const msg = !state ? 'No state specified' : !event ? `No event specified, required for ${methodName}` : '';
-  throw new Error(msg);
+export const handleError = (state: string | undefined | null, event: string | null, methodName: string) => {
+  if (!state) {
+    throw new Error(`No state specified, required for ${methodName}`);
+  } else if (!event) {
+    throw new Error(`No event specified, required for ${methodName}`);
+  }
+  throw new Error(`Unexpected error, state and event provided for ${methodName}`);
 };
 
 type InvokeKey = 'onError' | 'onDone';
