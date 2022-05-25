@@ -1,10 +1,11 @@
 import { generateMachineConfig } from './generateMachineConfig';
 import { fluent } from './fluent';
-import { AnyObj, FC, JSXSCXMLProps, JSXStateProps, JSXTransitionProps } from './types';
+import { AnyObj, FC, JSXFinalProps, JSXSCXMLProps, JSXStateProps, JSXTransitionProps } from './types';
 
 export const SCXML: FC<JSXSCXMLProps> = () => null;
 export const State: FC<JSXStateProps> = () => null;
 export const Transition: FC<JSXTransitionProps> = () => null;
+export const Final: FC<JSXFinalProps> = () => null;
 
 /// TODO: SCXML parser
 // export const parseSCXML = (xml: string) => {

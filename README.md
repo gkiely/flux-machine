@@ -89,7 +89,7 @@ console.log(service.state.context); // { speed: 1 }
 | parallel            |      ❌      |                   |
 | transition          |      ✅      | `<Transition>`    |
 | initial             |      ✅      | `<State initial>` |
-| final               |      ❌      |                   |
+| final               |      ✅      | `<Final>`         |
 | onentry             |      ✅      | `.onEntry()`      |
 | onexit              |      ✅      | `.onExit()`       |
 | history             |      ❌      |                   |

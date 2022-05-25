@@ -1,4 +1,4 @@
-import fsm, { State, Transition } from '../fsm';
+import fsm, { Final, State, Transition } from '../fsm';
 
 const stateChart = (
   <>
@@ -73,6 +73,22 @@ describe('fsm', () => {
     const machine = fsm(stateChart);
     expect(machine.get().initial).toBe('sleeping');
     const service = machine.start();
+    expect(service.state.value).toBe('sleeping');
+  });
+
+  it('supports final', () => {
+    const stateChart = (
+      <>
+        <State initial id="awake">
+          <Transition event="sleep" target="sleeping" />
+        </State>
+        <Final id="sleeping" />
+      </>
+    );
+    const machine = fsm(stateChart);
+    const service = machine.start();
+    service.send('sleep');
+    service.send('awake');
     expect(service.state.value).toBe('sleeping');
   });
 

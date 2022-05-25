@@ -1,5 +1,5 @@
 import { generateMachineConfig } from '../generateMachineConfig';
-import { State, Transition } from '../fsm';
+import { Final, State, Transition } from '../fsm';
 
 const sc = (
   <>
@@ -146,6 +146,27 @@ describe('generateMachineConfig', () => {
               target: 'sleeping',
             },
           },
+        },
+      },
+    });
+  });
+});
+
+describe('final', () => {
+  it('parse a final node', () => {
+    expect(
+      generateMachineConfig(
+        <>
+          <State id="awake"></State>
+          <Final id="sleeping"></Final>
+        </>
+      )
+    ).toEqual({
+      initial: 'awake',
+      states: {
+        awake: {},
+        sleeping: {
+          type: 'final',
         },
       },
     });

@@ -4,6 +4,18 @@ Monday
 - Push to reddit x
 - Test out npm install
 
+- Add to FAQ
+  - Why XML?
+
+Feedback
+- Support JSON
+- Add docs for each method
+  - When does when fire? Is it always subscribed?
+- Add some examples and use cases
+  - When would I use a state machine and why
+  - State machine vs. redux
+  - Form
+  - Be able to click to an actual example
 
 - SCXML
 - Move to using this syntax

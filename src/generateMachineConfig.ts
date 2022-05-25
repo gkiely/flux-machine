@@ -1,4 +1,4 @@
-import { AnyObj, Config } from './types';
+import { AnyObj, Config, State, Transition } from './types';
 
 type Props = {
   type: string;
@@ -34,6 +34,8 @@ const parseJSX = (jsx: JSX.Element): ParsedOutput => {
 };
 
 const nodeTypes = {
+  Final: 'Final',
+  SCXML: 'SCXML',
   State: 'State',
   Transition: 'Transition',
 } as const;
@@ -59,21 +61,28 @@ export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, dat
 
   if (!states) return output;
 
-  output.states = states.reduce((acc: { [k: string]: {} }, state) => {
+  output.states = states.reduce((acc: Record<string, State<Data>>, state) => {
     const { children, id } = state.props;
     acc[id] = {};
+
+    if (state.type === nodeTypes.Final) {
+      acc[id] = {
+        type: 'final',
+      };
+    }
+
     if (!children) return acc;
 
     const transitions = getChildren(children, nodeTypes.Transition);
 
     acc[id] = {
-      on: transitions.reduce((acc: { [k: string]: {} }, transition) => {
+      on: transitions.reduce((acc: Record<string, Transition>, transition) => {
         const { event, target } = transition.props;
         acc[event] = {
           target,
         };
         return acc;
-      }, {}),
+      }, {} as Record<string, Transition>),
     };
 
     return acc;

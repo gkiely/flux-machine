@@ -16,6 +16,10 @@ export type JSXSCXMLProps = {
   initial?: string;
 };
 
+export type JSXFinalProps = {
+  id: string;
+};
+
 export type JSXStateProps = {
   id: string;
   initial?: boolean;
@@ -45,6 +49,7 @@ export type State<Data> = Partial<{
   always: Function[];
   on: Record<string, Transition>;
   states: Record<string, State<Data>>;
+  type?: 'final';
   invoke: {
     src: (data: Data) => Promise<AnyObj | void>;
     onDone?: Transition;
