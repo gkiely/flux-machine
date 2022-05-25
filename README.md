@@ -16,14 +16,14 @@ import fsm, { State, Transition } from "flux-machine";
 // Define state chart using JSX
 const humanStateChart = (
   <>
-    <State initial id="sleeping">
+    <State id="sleeping">
       <Transition event="walk" target="walking" />
     </State>
     <State id="walking">
       <Transition event="sleep" target="sleeping" />
       <Transition event="run" target="running" />
     </State>
-    <State initial id="running">
+    <State id="running">
       <Transition event="walk" target="walking" />
     </State>
   </>
@@ -123,10 +123,6 @@ console.log(service.state.context); // { speed: 1 }
 
 [ 3kb minified and gzipped](https://bundlephobia.com/package/flux-machine)
 
-## Credit
-
-This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/packages/xstate-fsm) for it's finite state machine.
-
 ## FAQ
 
 ### Can I use this in production?
@@ -139,6 +135,19 @@ This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/pa
 
 ## Additional examples
 
+### Set an initial state
+
+```tsx
+const sc = (
+  <>
+    <State id="sleeping"></State>
+    <State initial id="awake"></State>
+  </>
+);
+const service = fsm(sc).start();
+console.log(machine.state.value); // awake
+```
+
 ### Re-use transitions
 
 ```tsx
@@ -146,9 +155,7 @@ const goToStart = <Transition event="start" target="1" />;
 const goToEnd = <Transition event="end" target="3" />;
 const sc = (
   <>
-    <State initial id="1">
-      {goToEnd}
-    </State>
+    <State id="1">{goToEnd}</State>
     <State id="2">{goToEnd}</State>
     <State id="3">{goToStart}</State>
   </>
@@ -166,3 +173,7 @@ machine
     console.log("transitioning to end"); // 'end' event was fired from any state
   });
 ```
+
+## Credit
+
+This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/packages/xstate-fsm) for it's finite state machine.

@@ -45,3 +45,5 @@ Sunday
 - Push to reddit x
 - Test out npm install
 
+- Add support for {transition} x
+

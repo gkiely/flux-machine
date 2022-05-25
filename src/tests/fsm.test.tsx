@@ -76,6 +76,32 @@ describe('fsm', () => {
     expect(service.state.value).toBe('sleeping');
   });
 
+  it('supports default initial', () => {
+    const sc = (
+      <>
+        <State id="sleeping" />
+        <State id="awake" />
+      </>
+    );
+    const machine = fsm(stateChart);
+    expect(machine.get().initial).toBe('sleeping');
+    const service = machine.start();
+    expect(service.state.value).toBe('sleeping');
+  });
+
+  it('supports initial on a different node', () => {
+    const sc = (
+      <>
+        <State id="sleeping" />
+        <State initial id="awake" />
+      </>
+    );
+    const machine = fsm(sc);
+    expect(machine.get().initial).toBe('awake');
+    const service = machine.start();
+    expect(service.state.value).toBe('awake');
+  });
+
   it('supports final', () => {
     const stateChart = (
       <>

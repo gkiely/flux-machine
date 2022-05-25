@@ -1,4 +1,4 @@
-- Add support for {transition}
+- Nested states/transisions
 - Check each scxml spec to see if you can implement any today
 
 V2
