@@ -13,10 +13,10 @@ Example:
 ```tsx
 import fsm, { State, Transition } from "flux-machine";
 
-// Define state chart using JSX
+// Define state chart using JSX (finite state)
 const humanStateChart = (
   <>
-    <State id="sleeping">
+    <State initial id="sleeping">
       <Transition event="walk" target="walking" />
     </State>
     <State id="walking">
@@ -29,12 +29,13 @@ const humanStateChart = (
   </>
 );
 
+// Define data (infinite state)
 const data = {
   energy: 10,
   speed: 0,
 };
 
-// Create a machine (also supports SCXML or Xstate JSON)
+// Create a machine
 const humanMachine = fsm(humanStateChart, data);
 
 // Add conditions, assignments or invoke side effects with chained syntax
@@ -178,4 +179,4 @@ machine
 
 ## Credit
 
-This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/packages/xstate-fsm) for it's finite state machine.
+This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/packages/xstate-fsm) for its finite state machine.

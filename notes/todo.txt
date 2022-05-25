@@ -23,6 +23,7 @@ Feedback
 
 - SCXML
  - Update readme: Spec compliant finite state machines using JSX, SCXML or JSON and chainable methods.
+  // Create a machine (also supports SCXML or Xstate JSON)
 - Move to using this syntax
 // Potentially move to this syntax
 // machine.when('sleeping')
