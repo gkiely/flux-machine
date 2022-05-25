@@ -136,3 +136,33 @@ This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/pa
 ### Why the name flux?
 
 - [(Flu)ent](https://en.wikipedia.org/wiki/Fluent_interface) [(X)ML](https://www.w3.org/XML)
+
+## Additional examples
+
+### Re-use transitions
+
+```tsx
+const goToStart = <Transition event="start" target="1" />;
+const goToEnd = <Transition event="end" target="3" />;
+const sc = (
+  <>
+    <State initial id="1">
+      {goToEnd}
+    </State>
+    <State id="2">{goToEnd}</State>
+    <State id="3">{goToStart}</State>
+  </>
+);
+```
+
+### Listen to transitions from any state
+
+```tsx
+machine
+  .when({
+    event: "end",
+  })
+  .action(() => {
+    console.log("end event"); // Fires any time 'end' event is sent
+  });
+```
