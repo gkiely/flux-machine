@@ -92,8 +92,15 @@ describe('fsm', () => {
     expect(service.state.value).toBe('sleeping');
   });
 
-  /// TODO
-  // it('invokes a promise', () => {
-  //   expect(1).toEqual(2);
-  // });
+  it('invokes a promise', () => {
+    const machine = fsm(stateChart);
+    const service = machine.start();
+
+    machine.when({
+      state: 'sleeping',
+    });
+    machine.start();
+
+    expect(service.state.value).toBe('sleeping');
+  });
 });
