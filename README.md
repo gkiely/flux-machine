@@ -117,7 +117,7 @@ console.log(service.state.context); // { speed: 1 }
 | Feature | flux-machine |
 | ------- | :----------: |
 | JSX     |      ✅      |
-| XML     |      ❌      |
+| SCXML   |      ❌      |
 | JSON    |      ❌      |
 
 ## Additional examples
@@ -166,15 +166,15 @@ machine
 ## Project goals
 
 - Match the [SCXML specification](https://www.w3.org/TR/scxml) as closely as possible
-  - Allows for developers to reference the spec directly
-  - Allows for developers learning efforts to be transferable
+  - Allows developers to reference the spec directly
+  - Allows developers learning efforts to be transferable
   - Avoids us having to write extensive documentation
-- Small bundle size (<5kb)
+- Small bundle size (`< 5kb`)
   - So developers can import it into existing projects for specific problems
 
 ## Bundle size
 
-[ 3kb minified and gzipped](https://bundlephobia.com/package/flux-machine)
+[ < 3kb minified and gzipped](https://bundlephobia.com/package/flux-machine)
 
 ## FAQ
 
