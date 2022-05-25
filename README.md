@@ -119,6 +119,10 @@ console.log(service.state.context); // { speed: 1 }
 | XML     |      ❌      |
 | JSON    |      ❌      |
 
+## Bundle size
+
+[ 3kb minified and gzipped](https://bundlephobia.com/package/flux-machine)
+
 ## Credit
 
 This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/packages/xstate-fsm) for it's finite state machine.
