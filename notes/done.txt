@@ -40,3 +40,8 @@ Sunday
     - get tests to pass x
     - Fix type errors x
 - Publish to npm x
+- Invoke, then, catch x
+- initial (on state node and scxml node) x
+- Push to reddit x
+- Test out npm install
+

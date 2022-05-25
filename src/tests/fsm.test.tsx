@@ -96,9 +96,19 @@ describe('fsm', () => {
     const machine = fsm(stateChart);
     const service = machine.start();
 
-    machine.when({
-      state: 'sleeping',
-    });
+    // wip
+    // machine.when({
+    //   state: 'sleeping',
+    // })
+    // .invoke(async (data, send) => {
+    //   try {
+    //     await new Promise(resolve => setTimeout(resolve, 100));
+    //     send('walk');
+    //   } catch {
+    //     send('sleep');
+    //   }
+    // })
+
     machine.start();
 
     expect(service.state.value).toBe('sleeping');

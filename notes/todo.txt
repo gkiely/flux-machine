@@ -1,11 +1,8 @@
-Monday
-- Invoke, then, catch x
-- initial (on state node and scxml node) x
-- Push to reddit x
-- Test out npm install
+
+- Update invoke to be a void async function where you can call send()
 
 - Add to FAQ
-  - Why XML?
+  - Why JSX/XML?
 
 Feedback
 - Support JSON

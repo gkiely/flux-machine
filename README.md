@@ -82,34 +82,34 @@ console.log(service.state.context); // { speed: 1 }
 
 [SCXML specification](https://www.w3.org/TR/scxml)
 
-| SCXML specification | flux-machine | Supported via     |
-| ------------------- | :----------: | ----------------- |
-| scxml               |      ✅      | `<SCXML>`         |
-| state               |      ✅      | `<State>`         |
-| parallel            |      ❌      |                   |
-| transition          |      ✅      | `<Transition>`    |
-| initial             |      ✅      | `<State initial>` |
-| final               |      ✅      | `<Final>`         |
-| onentry             |      ✅      | `.onEntry()`      |
-| onexit              |      ✅      | `.onExit()`       |
-| history             |      ❌      |                   |
-| raise               |      ❌      |                   |
-| if                  |      ❌      |                   |
-| elseif              |      ❌      |                   |
-| else                |      ❌      |                   |
-| foreach             |      ❌      |                   |
-| log                 |      ❌      |                   |
-| datamodel           |      ✅      | `fsm(..., data)`  |
-| data                |      ✅      | `fsm(..., data)`  |
-| assign              |      ✅      | `.assign()`       |
-| donedata            |      ❌      |                   |
-| content             |      ❌      |                   |
-| param               |      ❌      |                   |
-| script              |      ✅      | `.action()`       |
-| send                |      ✅      | `.send()`         |
-| cancel              |      ❌      |                   |
-| invoke              |      ✅      | `.invoke()`       |
-| finalize            |      ❌      |                   |
+| SCXML specification                                   | flux-machine | Supported via     |
+| ----------------------------------------------------- | :----------: | ----------------- |
+| [scxml](https://www.w3.org/TR/scxml/#scxml)           |      ✅      | `<SCXML>`         |
+| [state](https://www.w3.org/TR/scxml/#state)           |      ✅      | `<State>`         |
+| [parallel](https://www.w3.org/TR/scxml/#parallel)     |      ❌      |                   |
+| [transition](https://www.w3.org/TR/scxml/#transition) |      ✅      | `<Transition>`    |
+| [initial](https://www.w3.org/TR/scxml/#initial)       |      ✅      | `<State initial>` |
+| [final](https://www.w3.org/TR/scxml/#final)           |      ✅      | `<Final>`         |
+| [onentry](https://www.w3.org/TR/scxml/#onentry)       |      ✅      | `.onEntry()`      |
+| [onexit](https://www.w3.org/TR/scxml/#onexit)         |      ✅      | `.onExit()`       |
+| [history](https://www.w3.org/TR/scxml/#history)       |      ❌      |                   |
+| [raise](https://www.w3.org/TR/scxml/#raise)           |      ❌      |                   |
+| [if](https://www.w3.org/TR/scxml/#if)                 |      ❌      |                   |
+| [elseif](https://www.w3.org/TR/scxml/#elseif)         |      ❌      |                   |
+| [else](https://www.w3.org/TR/scxml/#else)             |      ❌      |                   |
+| [foreach](https://www.w3.org/TR/scxml/#foreach)       |      ❌      |                   |
+| [log](https://www.w3.org/TR/scxml/#log)               |      ❌      |                   |
+| [datamodel](https://www.w3.org/TR/scxml/#datamodel)   |      ✅      | `fsm(..., data)`  |
+| [data](https://www.w3.org/TR/scxml/#data)             |      ✅      | `fsm(..., data)`  |
+| [assign](https://www.w3.org/TR/scxml/#assign)         |      ✅      | `.assign()`       |
+| [donedata](https://www.w3.org/TR/scxml/#donedata)     |      ❌      |                   |
+| [content](https://www.w3.org/TR/scxml/#content)       |      ❌      |                   |
+| [param](https://www.w3.org/TR/scxml/#param)           |      ❌      |                   |
+| [script](https://www.w3.org/TR/scxml/#script)         |      ✅      | `.action()`       |
+| [send](https://www.w3.org/TR/scxml/#send)             |      ✅      | `.send()`         |
+| [cancel](https://www.w3.org/TR/scxml/#cancel)         |      ❌      |                   |
+| [invoke](https://www.w3.org/TR/scxml/#invoke)         |      ✅      | `.invoke()`       |
+| [finalize](https://www.w3.org/TR/scxml/#finalize)     |      ❌      |                   |
 
 ## Additional features
 
@@ -121,7 +121,7 @@ console.log(service.state.context); // { speed: 1 }
 
 ## Credit
 
-This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/packages/xstate-fsm) for it's finite machine.
+This library uses [@xstate/fsm](https://github.com/statelyai/xstate/tree/main/packages/xstate-fsm) for it's finite state machine.
 
 ## FAQ
 
