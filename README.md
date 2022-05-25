@@ -163,6 +163,6 @@ machine
     event: "end",
   })
   .action(() => {
-    console.log("end event"); // Fires any time 'end' event is sent
+    console.log("end event"); // 'end' event was fired from any state
   });
 ```
