@@ -1,6 +1,8 @@
 - Nested states/transisions
 - Check each scxml spec to see if you can implement any today
 
+- Add an invoke example with a working api call
+
 V2
 - Update invoke to be a void async function where you can call send()
 
