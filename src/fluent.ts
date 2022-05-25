@@ -174,18 +174,23 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
         then: thenableMethods,
       };
     },
-  };
-
-  return {
-    get: () => config,
-    when({ state, event }: WhenArgs) {
-      currentState = state;
-      currentEvent = event ?? null;
-      return fluentMethods;
-    },
     start() {
       // @ts-expect-error
       return interpret<Data>(createMachine(config)).start();
     },
+  };
+
+  return {
+    get: () => config,
+    when(args: WhenArgs) {
+      if ('state' in args) {
+        currentState = args.state;
+      }
+      if ('event' in args) {
+        currentEvent = args.event;
+      }
+      return fluentMethods;
+    },
+    start: fluentMethods.start,
   };
 };

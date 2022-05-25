@@ -30,10 +30,17 @@ export type JSXTransitionProps = {
   target: string;
 };
 
-export type WhenArgs = {
-  state: string;
-  event?: string;
-};
+export type WhenArgs =
+  | {
+      state: string;
+    }
+  | {
+      event: string;
+    }
+  | {
+      state: string;
+      event: string;
+    };
 
 // Xstate types
 export type Transition = {

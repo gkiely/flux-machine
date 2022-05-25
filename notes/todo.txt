@@ -1,5 +1,5 @@
+- Add support for {transition}
 - Check each scxml spec to see if you can implement any today
-
 
 V2
 - Update invoke to be a void async function where you can call send()
@@ -7,8 +7,6 @@ V2
 - Add badge to show gzip payload size and coverage
 - Write your own state machine
   - Update credit -> inspired by
-
-
 
 - Add to FAQ
   - Why JSX/XML?

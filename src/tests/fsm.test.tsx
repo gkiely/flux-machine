@@ -113,4 +113,47 @@ describe('fsm', () => {
 
     expect(service.state.value).toBe('sleeping');
   });
+
+  it('supports re-using transitions', () => {
+    const goToStart = <Transition event="start" target="1" />;
+    const goToEnd = <Transition event="end" target="3" />;
+    const sc = (
+      <>
+        <State initial id="1">
+          {goToEnd}
+        </State>
+        <State id="2">{goToEnd}</State>
+        <State id="3">{goToStart}</State>
+      </>
+    );
+    const machine = fsm(sc);
+    const service = machine.start();
+    service.send('end');
+    expect(service.state.value).toBe('3');
+  });
+
+  it('supports global transitions', () => {
+    const goToStart = <Transition event="start" target="1" />;
+    const goToEnd = <Transition event="end" target="3" />;
+    const sc = (
+      <>
+        <State initial id="1">
+          {goToEnd}
+        </State>
+        <State id="2">{goToEnd}</State>
+        <State id="3">{goToStart}</State>
+      </>
+    );
+    const machine = fsm(sc);
+    const fn = jest.fn();
+    machine
+      .when({
+        event: 'end',
+      })
+      .action(fn);
+    const service = machine.start();
+    service.send('end');
+    expect(service.state.value).toBe('3');
+    expect(fn).toBeCalledTimes(1);
+  });
 });

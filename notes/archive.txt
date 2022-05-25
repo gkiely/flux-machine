@@ -5,3 +5,10 @@ Culled tasks
   - Post to twitter
   - Put on hackernews
 
+
+/// TODO: SCXML parser
+// export const parseSCXML = (xml: string) => {
+//   const parser = new DOMParser();
+//   const doc = parser.parseFromString(xml, 'text/html');
+//   console.log(doc);
+// }
