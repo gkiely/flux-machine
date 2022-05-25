@@ -135,7 +135,9 @@ console.log(service.state.context); // { speed: 1 }
 
 ## Additional examples
 
-### Set an initial state
+### Set an initial state that is not the first state
+
+> By default the first state is the initial state
 
 ```tsx
 const sc = (
