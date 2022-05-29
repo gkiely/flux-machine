@@ -241,6 +241,17 @@ describe('onEntry', () => {
 
     expect(fsm.get()).toEqual(result);
   });
+  it('should handle no state entry handler', () => {
+    const fn = jest.fn();
+    const config = { ...baseConfig };
+    const fsm = fluent(config)
+      .when({
+        event: 'wake',
+      })
+      .onEntry(fn);
+
+    expect(fsm.get()).toEqual(config);
+  });
 });
 
 describe('onExit', () => {
@@ -260,5 +271,17 @@ describe('onExit', () => {
     });
 
     expect(fsm.get()).toEqual(result);
+  });
+
+  it('should handle no state exit handler', () => {
+    const fn = jest.fn();
+    const config = { ...baseConfig };
+    const fsm = fluent(config)
+      .when({
+        event: 'wake',
+      })
+      .onExit(fn);
+
+    expect(fsm.get()).toEqual(config);
   });
 });

@@ -24,20 +24,22 @@ type ParsedOutput = {
   props: Props;
 };
 
+const replacer = (key: string, value: { name: string } & AnyObj) => {
+  switch (key) {
+    case '_owner':
+    case '_store':
+    case 'ref':
+    case 'key':
+    case '$$typeof':
+      return;
+    case 'type':
+      return value?.name;
+    default:
+      return value;
+  }
+};
+
 const parseJSX = (jsx: JSX.Element): ParsedOutput => {
-  const replacer = (key: string, value: AnyObj) => {
-    switch (key) {
-      case '_owner':
-      case '_store':
-      case 'ref':
-      case 'key':
-        return;
-      case 'type':
-        return value?.name;
-      default:
-        return value;
-    }
-  };
   const str = JSON.stringify(jsx, replacer);
   return JSON.parse(str);
 };

@@ -46,4 +46,4 @@ Sunday
 - Test out npm install
 
 - Add support for {transition} x
-
+- Get coverage to >=95% and set threshold

@@ -171,7 +171,7 @@ machine
   - Avoids us having to write extensive documentation
 - Small bundle size (`< 5kb`)
   - Allows developers to import it into existing projects to address specific problems
-- High code coverage (`>= 99%`)
+- High code coverage (`>= 95%`)
   - Allows developers to be confident the library works as expected
 
 ## Bundle size
