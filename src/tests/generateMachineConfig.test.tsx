@@ -150,6 +150,32 @@ describe('generateMachineConfig', () => {
       },
     });
   });
+
+  it('should return default output if no states are defined', () => {
+    expect(
+      generateMachineConfig(
+        <>
+          <Transition event="walk" target="walking" />
+        </>
+      )
+    ).toEqual({
+      initial: '',
+      states: {},
+    });
+  });
+});
+
+it('should return an empty string for initial if no initial is provided', () => {
+  expect(
+    generateMachineConfig(
+      <>
+        <Transition event="walk" target="walking" />
+      </>
+    )
+  ).toEqual({
+    initial: '',
+    states: {},
+  });
 });
 
 describe('final', () => {

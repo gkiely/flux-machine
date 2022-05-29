@@ -1,9 +1,11 @@
 This weekend
+- Get coverage to 100% and set threshold
+- Support adding invoke, etc. to global transition
 - Goal: get nested and parallel states working
 - Move away from @xstate/fsm
 - Add support for passing actions to state chart
 
-- Write test for invoke
+- Write fsm test for invoke
 - Add an invoke example with a working api call
 - Nested states/transisions
 

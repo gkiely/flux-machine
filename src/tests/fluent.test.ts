@@ -15,18 +15,17 @@ const baseConfig = {
   },
 };
 
+const emptyConfig = {
+  initial: '',
+  states: {},
+};
+
 describe('handleError', () => {
-  const testError = (...args: Parameters<typeof handleError>) => {
-    return () => handleError(...args);
-  };
-  it('should throw an error if no state is specified', () => {
-    expect(testError(null, null, 'action')).toThrowError('No state specified, required for action');
+  it('should throw an error if no event is specified', () => {
+    expect(() => handleError(null, 'action')).toThrow('No event specified, required for action');
   });
   it('should throw an error if no event is specified', () => {
-    expect(testError('sleeping', null, 'action')).toThrowError('No event specified, required for action');
-  });
-  it('should throw an error if no event is specified', () => {
-    expect(testError('state', 'event', 'action')).toThrowError(
+    expect(() => handleError('event', 'action')).toThrow(
       'Unexpected error, state and event provided for action'
     );
   });
@@ -73,6 +72,19 @@ describe('action', () => {
 
     expect(fsm).toEqual(result);
   });
+
+  it('should throw an error if no event is provided', () => {
+    const fn = jest.fn();
+    const config = baseConfig;
+
+    expect(() => {
+      fluent(config)
+        .when({
+          state: 'sleeping',
+        })
+        .action(fn);
+    }).toThrow('No event specified, required for action');
+  });
 });
 
 describe('cond', () => {
@@ -94,6 +106,18 @@ describe('cond', () => {
     });
 
     expect(fsm).toEqual(result);
+  });
+  it('should throw an error if no event is provided', () => {
+    const fn = jest.fn();
+    const config = baseConfig;
+
+    expect(() => {
+      fluent(config)
+        .when({
+          state: 'sleeping',
+        })
+        .cond(fn);
+    }).toThrow('No event specified, required for cond');
   });
 });
 
@@ -125,103 +149,116 @@ describe('assign', () => {
     expect(fsm).toEqual(result);
   });
 
-  describe('invoke', () => {
-    it('should add an invoke', () => {
-      const fetchMock = jest.fn((url: string) => Promise.resolve({ data: 1 }));
-      const invoke = jest.fn(() => fetchMock('./data.json'));
-      const config = {
-        ...baseConfig,
-      };
-      const fsm = fluent(config)
+  it('should throw an error if no event is provided', () => {
+    const fn = jest.fn();
+    const config = baseConfig;
+
+    expect(() => {
+      fluent(config)
         .when({
           state: 'sleeping',
         })
-        .invoke(invoke)
-        .get();
-
-      const result = immer(config, draft => {
-        // @ts-expect-error
-        draft.states.sleeping.invoke = {
-          src: invoke,
-        };
-      });
-
-      expect(fsm).toEqual(result);
-    });
-
-    it('should add an onDone and onError to invoke', () => {
-      const fetchMock = jest.fn((url: string) => Promise.resolve({ data: 1 }));
-      const invoke = jest.fn(() => fetchMock('./data.json'));
-      const fn = jest.fn(data => ({ speed: data?.speed + 1 }));
-      const config = {
-        ...baseConfig,
-      };
-      const fsm = fluent(config)
-        .when({
-          state: 'sleeping',
-        })
-        .invoke(invoke)
-        .then.target('awake')
-        .assign(fn)
-        .catch.target('awake')
         .assign(fn);
+    }).toThrow('No event specified, required for assign');
+  });
+});
 
-      const result = immer(config, draft => {
-        // @ts-expect-error
-        draft.states.sleeping.invoke = {
-          src: invoke,
-          onDone: {
-            target: 'awake',
-            actions: [assign(fn)],
-          },
-          onError: {
-            target: 'awake',
-            actions: [assign(fn)],
-          },
-        };
-      });
+describe('invoke', () => {
+  it('should add an invoke', () => {
+    const fetchMock = jest.fn((url: string) => Promise.resolve({ data: 1 }));
+    const invoke = jest.fn(() => fetchMock('./data.json'));
+    const config = {
+      ...baseConfig,
+    };
+    const fsm = fluent(config)
+      .when({
+        state: 'sleeping',
+      })
+      .invoke(invoke)
+      .get();
 
-      expect(fsm.get()).toEqual(result);
+    const result = immer(config, draft => {
+      // @ts-expect-error
+      draft.states.sleeping.invoke = {
+        src: invoke,
+      };
     });
+
+    expect(fsm).toEqual(result);
   });
 
-  describe('onEntry', () => {
-    it('should add an entry handler', () => {
-      const fn = jest.fn();
-      const config = { ...baseConfig };
-      const fsm = fluent(config)
-        .when({
-          state: 'sleeping',
-          event: 'wake',
-        })
-        .onEntry(fn);
+  it('should add an onDone and onError to invoke', () => {
+    const fetchMock = jest.fn((url: string) => Promise.resolve({ data: 1 }));
+    const invoke = jest.fn(() => fetchMock('./data.json'));
+    const fn = jest.fn(data => ({ speed: data?.speed + 1 }));
+    const config = {
+      ...baseConfig,
+    };
+    const fsm = fluent(config)
+      .when({
+        state: 'sleeping',
+      })
+      .invoke(invoke)
+      .then.target('awake')
+      .assign(fn)
+      .catch.target('awake')
+      .assign(fn);
 
-      const result = immer(config, draft => {
-        // @ts-expect-error
-        draft.states.sleeping.entry = [fn];
-      });
-
-      expect(fsm.get()).toEqual(result);
+    const result = immer(config, draft => {
+      // @ts-expect-error
+      draft.states.sleeping.invoke = {
+        src: invoke,
+        onDone: {
+          target: 'awake',
+          actions: [assign(fn)],
+        },
+        onError: {
+          target: 'awake',
+          actions: [assign(fn)],
+        },
+      };
     });
+
+    expect(fsm.get()).toEqual(result);
   });
+});
 
-  describe('onExit', () => {
-    it('should add an exit handler', () => {
-      const fn = jest.fn();
-      const config = { ...baseConfig };
-      const fsm = fluent(config)
-        .when({
-          state: 'sleeping',
-          event: 'wake',
-        })
-        .onExit(fn);
+describe('onEntry', () => {
+  it('should add an entry handler', () => {
+    const fn = jest.fn();
+    const config = { ...baseConfig };
+    const fsm = fluent(config)
+      .when({
+        state: 'sleeping',
+        event: 'wake',
+      })
+      .onEntry(fn);
 
-      const result = immer(config, draft => {
-        // @ts-expect-error
-        draft.states.sleeping.exit = [fn];
-      });
-
-      expect(fsm.get()).toEqual(result);
+    const result = immer(config, draft => {
+      // @ts-expect-error
+      draft.states.sleeping.entry = [fn];
     });
+
+    expect(fsm.get()).toEqual(result);
+  });
+});
+
+describe('onExit', () => {
+  it('should add an exit handler', () => {
+    const fn = jest.fn();
+    const config = { ...baseConfig };
+    const fsm = fluent(config)
+      .when({
+        state: 'sleeping',
+        event: 'wake',
+      })
+      .onExit(fn);
+
+    const result = immer(config, draft => {
+      // @ts-expect-error
+      draft.states.sleeping.exit = [fn];
+    });
+
+    expect(fsm.get()).toEqual(result);
   });
 });

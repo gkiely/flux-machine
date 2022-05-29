@@ -171,10 +171,16 @@ machine
   - Avoids us having to write extensive documentation
 - Small bundle size (`< 5kb`)
   - So developers can import it into existing projects for specific problems
+- Code coverage of 100%
+  - So developers can be confident the library works correctly
 
 ## Bundle size
 
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/flux-machine?color=%234ac41c&label=Minified%20and%20gzipped)](https://bundlephobia.com/package/flux-machine)
+
+## Code coverage
+
+[![codecov](https://codecov.io/gh/gkiely/flux-machine/branch/main/graph/badge.svg?token=50LLPUB1RI)](https://codecov.io/gh/gkiely/flux-machine)
 
 ## FAQ
 

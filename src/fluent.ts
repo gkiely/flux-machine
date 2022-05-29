@@ -2,10 +2,8 @@ import { assign, createMachine, interpret } from '@xstate/fsm';
 import { AnyObj, Config, WhenArgs } from './types';
 import { omit } from './utils';
 
-export const handleError = (state: string | undefined | null, event: string | null, methodName: string) => {
-  if (!state) {
-    throw new Error(`No state specified, required for ${methodName}`);
-  } else if (!event) {
+export const handleError = (event: string | null, methodName: string) => {
+  if (!event) {
     throw new Error(`No event specified, required for ${methodName}`);
   }
   throw new Error(`Unexpected error, state and event provided for ${methodName}`);
@@ -32,10 +30,6 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
       };
     },
     target(state: string, key: InvokeKey): void {
-      if (!currentState) {
-        return handleError(currentState, null, 'invoke');
-      }
-
       const transition = config.states?.[currentState]?.invoke;
       if (transition) {
         transition[key] = {
@@ -82,8 +76,8 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
 
   const fluentMethods = {
     action(fn: (data: Data) => void) {
-      if (!currentState || !currentEvent) {
-        return handleError(currentState, currentEvent, 'action');
+      if (!currentEvent) {
+        return handleError(currentEvent, 'action');
       }
 
       const transition = config.states?.[currentState]?.on?.[currentEvent];
@@ -95,8 +89,8 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
       return this;
     },
     assign(fn: (data: Data) => Partial<Data>) {
-      if (!currentState || !currentEvent) {
-        return handleError(currentState, currentEvent, 'assign');
+      if (!currentEvent) {
+        return handleError(currentEvent, 'assign');
       }
       const transition = config.states?.[currentState]?.on?.[currentEvent];
 
@@ -108,8 +102,8 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
     },
 
     cond(fn: (data: Data) => boolean) {
-      if (!currentState || !currentEvent) {
-        return handleError(currentState, currentEvent, 'action');
+      if (!currentEvent) {
+        return handleError(currentEvent, 'cond');
       }
 
       const transition = config.states?.[currentState]?.on?.[currentEvent];
@@ -124,13 +118,10 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
       this.cond(fn);
       return this;
     },
-    delay() {
-      return this;
-    },
+    // delay() {
+    //   return this;
+    // },
     onEntry(fn: (data: Data) => void) {
-      if (!currentState) {
-        return handleError(currentState, null, 'entry');
-      }
       const state = config.states?.[currentState];
       if (!state) return this;
 
@@ -140,9 +131,6 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
       return this;
     },
     onExit(fn: (data: Data) => void) {
-      if (!currentState) {
-        return handleError(currentState, null, 'entry');
-      }
       const state = config.states?.[currentState];
       if (!state) return this;
 
@@ -153,21 +141,13 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
     },
     get: () => config,
     invoke(fn: (data: Data) => Promise<AnyObj | void>) {
-      if (!currentState) {
-        return handleError(currentState, null, 'invoke');
-      }
       const state = config.states?.[currentState];
-      if (!state) {
-        return {
-          ...this,
-          catch: catchableMethods,
-          then: thenableMethods,
+
+      if (state) {
+        state.invoke = {
+          src: fn,
         };
       }
-
-      state.invoke = {
-        src: fn,
-      };
       return {
         ...this,
         catch: catchableMethods,

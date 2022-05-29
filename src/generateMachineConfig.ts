@@ -1,7 +1,16 @@
-import { AnyObj, Config, State, Transition } from './types';
+import { AnyObj, assert, Config, State, Transition } from './types';
+
+const nodeTypes = {
+  Final: 'Final',
+  SCXML: 'SCXML',
+  State: 'State',
+  Transition: 'Transition',
+} as const;
+
+type NodeType = typeof nodeTypes[keyof typeof nodeTypes];
 
 type Props = {
-  type: string;
+  type: NodeType;
   children: Props | Props[];
   props: Props & {
     id: string;
@@ -33,17 +42,10 @@ const parseJSX = (jsx: JSX.Element): ParsedOutput => {
   return JSON.parse(str);
 };
 
-const nodeTypes = {
-  Final: 'Final',
-  SCXML: 'SCXML',
-  State: 'State',
-  Transition: 'Transition',
-} as const;
-
-const getChildren = (
-  children: Props['children'],
-  nodeType: typeof nodeTypes[keyof typeof nodeTypes]
-): Props[] => (Array.isArray(children) ? children : [children]).filter(child => nodeType);
+const getChildren = (children: Props['children'], nodeType: NodeType | NodeType[]): Props[] =>
+  (Array.isArray(children) ? children : [children]).filter(child =>
+    Array.isArray(nodeType) ? nodeType.includes(child.type) : child.type === nodeType
+  );
 
 // JSX parser
 export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, data?: Data): Config<Data> => {
@@ -55,11 +57,12 @@ export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, dat
   const config = parseJSX(jsx);
   if (!config.props.children) return output;
 
-  const { props, children } = config.props;
+  const { children } = config.props;
 
-  const states = getChildren(children, nodeTypes.State);
+  const states = getChildren(children, [nodeTypes.State, nodeTypes.Final]);
 
-  if (!states) return output;
+  if (!states.length) return output;
+  assert(states[0]);
 
   output.states = states.reduce((acc: Record<string, State<Data>>, state) => {
     const { children, id } = state.props;
@@ -88,7 +91,7 @@ export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, dat
     return acc;
   }, {});
 
-  output.initial = states.find(state => state.props.initial)?.props.id ?? states[0]?.props.id ?? '';
+  output.initial = states.find(state => state.props.initial)?.props.id ?? states[0]?.props.id;
 
   return output;
 };
