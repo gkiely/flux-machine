@@ -170,9 +170,9 @@ machine
   - Allows developers learning efforts to be transferable
   - Avoids us having to write extensive documentation
 - Small bundle size (`< 5kb`)
-  - So developers can import it into existing projects for specific problems
-- Code coverage of 100%
-  - So developers can be confident the library works correctly
+  - Allows developers to import it into existing projects to address specific problems
+- High code coverage (`>= 99%`)
+  - Allows developers to be confident the library works as expected
 
 ## Bundle size
 
