@@ -169,6 +169,9 @@ machine
   - Allows developers to reference the spec directly
   - Allows developers learning efforts to be transferable
   - Avoids us having to write extensive documentation
+- Improved developer experience
+  - Separate finite and extended state
+  - Fluent API should provide intellisense to avoid guessing method or property names
 - Small bundle size (`< 5kb`)
   - Allows developers to import it into existing projects to address specific problems
 - High code coverage (`>= 95%`)

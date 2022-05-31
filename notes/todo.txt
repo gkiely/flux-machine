@@ -1,15 +1,25 @@
-This weekend
-- Support adding invoke, etc. to global transition
-- Goal: get nested and parallel states working
-- Move away from @xstate/fsm
-- Add support for passing actions to state chart
+V1
+Goal: move away from @xstate/fsm, and get spec covered
 
-- Write fsm test for invoke
+- global transition
+
+- Move away from @xstate/fsm
+Then
+- invoke
+- Nested and parallel states working
+
 - Add an invoke example with a working api call
 - Nested states/transisions
-
+- Get rest of spec covered
+- Launch
 
 V2
+Goal: build out a simple version of a state chart, using the graphic you screenshotted
+- Build and launch
+
+
+
+TBD
 - Update invoke to be a void async function where you can call send()
 
 - Add badge to show gzip payload size and coverage
