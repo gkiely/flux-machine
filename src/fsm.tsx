@@ -9,11 +9,9 @@ export const Transition: FC<JSXTransitionProps> = () => null;
 export const Final: FC<JSXFinalProps> = () => null;
 /* c8 ignore stop */
 
-type StateChartFunction = (...args: any[]) => JSX.Element;
-
 // converts JSX, SCXML JSON to json and returns fluent api
 export default <Data extends AnyObj, A extends AnyObj>(
-  stateChart: JSX.Element | StateChartFunction,
+  stateChart: JSX.Element | ((...args: any[]) => JSX.Element),
   data?: Data | null,
   actions?: A
 ) => {
