@@ -29,7 +29,7 @@ type Action = (data: AnyObj) => void;
 
 export type JSXTransitionProps = {
   event: string;
-  target: string;
+  target?: string;
   cond?: (data: AnyObj) => boolean;
   assign?: Action;
 } & (

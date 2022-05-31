@@ -170,25 +170,30 @@ const sc: StateChart = ({ actions, guards }) => {
   return (
     <>
       <State id="sleeping">
-        <Transition event="walk" target="walking" cond={guards.check} action={actions.walk} />
+        <Transition event="wake" target="awake" />
       </State>
-      <State id="walking">
-        <Transition event="sleep" target="sleeping" />
+      <State id="awake">
+        <Transition event="step" assign={actions.step} />
+        <Transition event="walk" target="walking" cond={guards.check} />
       </State>
+      <Final id="walking" />
     </>
   );
 };
 
 const machine = fsm(sc, null, {
   actions: {
-    walk: () => console.log('I am walking'),
+    step: (data) => ({ speed: data.speed + 1}),
   }
   guards: {
-    check: (data) => data.speed > 1,
+    check: (data) => data.speed >= 1,
   },
 });
 service.send("walk");
 console.log(machine.state.value); // sleeping
+service.send("move");
+service.send("walk");
+console.log(machine.state.value); // walking
 ```
 
 ## Project goals

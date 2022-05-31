@@ -267,7 +267,7 @@ describe('jsx', () => {
         <>
           <State id="sleeping">
             <Transition event="walk" target="walking" cond={guards?.check} />
-            <Transition event="step" target="sleeping" assign={actions?.step} />
+            <Transition event="step" assign={actions?.step} />
           </State>
           <State id="walking">
             <Transition event="sleep" target="sleeping" />
