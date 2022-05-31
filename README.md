@@ -204,7 +204,7 @@ console.log(machine.state.value); // sleeping
 
 ## Bundle size
 
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/flux-machine?color=%234ac41c&label=Minified%20and%20gzipped)](https://bundlephobia.com/package/flux-machine)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/flux-machine/latest?color=%234ac41c&label=Minified%20and%20gzipped)](https://bundlephobia.com/package/flux-machine@latest)
 
 ## Code coverage
 
