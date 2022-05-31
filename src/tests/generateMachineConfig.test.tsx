@@ -1,6 +1,7 @@
 import { generateMachineConfig, parser } from '../generateMachineConfig';
 import { Final, State, Transition } from '../fsm';
-import { AnyObj } from 'src/types';
+import { AnyObj, StateChart } from 'src/types';
+import { assign } from '@xstate/fsm';
 
 const sc = (
   <>
@@ -232,55 +233,90 @@ describe('parser', () => {
   });
 });
 
-describe('jsx:cond', () => {
-  const humanStateChart = ({
-    actions,
-    guards,
-  }: {
-    actions: Record<string, () => void>;
-    guards: Record<string, (data: AnyObj) => boolean>;
-  }) => {
-    return (
+describe('jsx', () => {
+  describe('cond', () => {
+    const humanStateChart = ({
+      actions,
+      guards,
+    }: {
+      actions: Record<string, () => void>;
+      guards: Record<string, (data: AnyObj) => boolean>;
+    }) => {
+      return (
+        <>
+          <State id="sleeping">
+            <Transition event="walk" target="walking" cond={guards.check} action={actions.walking} />
+          </State>
+          <State id="walking">
+            <Transition event="sleep" target="sleeping" />
+          </State>
+        </>
+      );
+    };
+    const fn = jest.fn(() => false);
+
+    const sc = humanStateChart({
+      actions: {
+        walking: fn,
+      },
+      guards: {
+        check: fn,
+      },
+    });
+
+    expect(generateMachineConfig(sc)).toEqual({
+      initial: 'sleeping',
+      states: {
+        sleeping: {
+          on: {
+            walk: {
+              target: 'walking',
+              cond: fn,
+              actions: [fn],
+            },
+          },
+        },
+        walking: {
+          on: {
+            sleep: {
+              target: 'sleeping',
+            },
+          },
+        },
+      },
+    });
+  });
+
+  describe('assign', () => {
+    const humanStateChart: StateChart = ({ actions }) => (
       <>
         <State id="sleeping">
-          <Transition event="walk" target="walking" cond={guards.check} action={actions.walking} />
-        </State>
-        <State id="walking">
-          <Transition event="sleep" target="sleeping" />
+          <Transition event="walk" target="walking" assign={actions?.walk} />
         </State>
       </>
     );
-  };
-  const fn = jest.fn(() => false);
 
-  const sc = humanStateChart({
-    actions: {
-      walking: fn,
-    },
-    guards: {
-      check: fn,
-    },
-  });
+    const fn = jest.fn();
 
-  expect(generateMachineConfig(sc)).toEqual({
-    initial: 'sleeping',
-    states: {
-      sleeping: {
-        on: {
-          walk: {
-            target: 'walking',
-            cond: fn,
-            actions: [fn],
+    const sc = humanStateChart({
+      actions: {
+        walk: fn,
+      },
+    });
+
+    const config = generateMachineConfig(sc, { speed: 0 });
+    expect(config).toMatchObject({
+      initial: 'sleeping',
+      states: {
+        sleeping: {
+          on: {
+            walk: {
+              target: 'walking',
+              actions: [assign(fn)],
+            },
           },
         },
       },
-      walking: {
-        on: {
-          sleep: {
-            target: 'sleeping',
-          },
-        },
-      },
-    },
+    });
   });
 });

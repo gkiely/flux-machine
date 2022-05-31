@@ -199,7 +199,7 @@ describe('jsx', () => {
       return (
         <>
           <State id="sleeping">
-            <Transition event="walk" target="walking" cond={guards.check} />
+            <Transition event="walk" target="walking" cond={guards?.check} />
           </State>
           <State id="walking">
             <Transition event="sleep" target="sleeping" />
@@ -230,7 +230,7 @@ describe('jsx', () => {
       return (
         <>
           <State id="sleeping">
-            <Transition event="walk" target="walking" action={actions.walking} />
+            <Transition event="walk" target="walking" action={actions?.walking} />
           </State>
           <State id="walking">
             <Transition event="sleep" target="sleeping" />
@@ -258,6 +258,43 @@ describe('jsx', () => {
       service.send('walk');
       expect(fn).toBeCalledTimes(1);
       expect(fn).toBeCalledWith({ speed: 1 }, { type: 'walk' });
+    });
+  });
+
+  describe('action', () => {
+    const sc: StateChart = ({ actions }) => {
+      return (
+        <>
+          <State id="sleeping">
+            <Transition event="walk" target="walking" assign={actions?.walk} />
+          </State>
+          <State id="walking">
+            <Transition event="sleep" target="sleeping" />
+          </State>
+        </>
+      );
+    };
+
+    const fn = jest.fn();
+
+    const machine = fsm(
+      sc,
+      {
+        speed: 0,
+      },
+      {
+        actions: {
+          /// TODO: add correct typing for 3rd argument of fsm
+          // @ts-expect-error
+          walk: data => ({ speed: data.speed + 1 }),
+        },
+      }
+    );
+
+    it('should call function', () => {
+      const service = machine.start();
+      service.send('walk');
+      expect(service.state.context).toEqual({ speed: 1 });
     });
   });
 });

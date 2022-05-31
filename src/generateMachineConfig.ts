@@ -1,3 +1,4 @@
+import { assign } from '@xstate/fsm';
 import { AnyObj, assert, Config, State, Transition } from './types';
 
 const nodeTypes = {
@@ -117,6 +118,11 @@ export const generateMachineConfig = <Data extends AnyObj>(
 
         if (action) {
           actions.push(action);
+        }
+
+        if (rest.assign) {
+          // @ts-expect-error
+          actions.push(assign(rest.assign));
         }
 
         acc[event] = {

@@ -163,7 +163,7 @@ machine
   });
 ```
 
-### Inline JSX syntax for actions and conditions
+### JSX syntax for actions and conditions
 
 ```tsx
 const sc: StateChart = ({ actions, guards }) => {
