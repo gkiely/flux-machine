@@ -1,3 +1,4 @@
+import { AnyObj } from 'src/types';
 import fsm, { Final, State, Transition } from '../fsm';
 
 const stateChart = (
@@ -181,5 +182,50 @@ describe('fsm', () => {
     service.send('end');
     expect(service.state.value).toBe('3');
     expect(fn).toBeCalledTimes(1);
+  });
+});
+
+describe('fsm:jsx', () => {
+  const humanStateChart = ({
+    actions,
+    guards,
+  }: {
+    actions: Record<string, () => void>;
+    guards: Record<string, (data: AnyObj) => boolean>;
+  }) => {
+    return (
+      <>
+        <State id="sleeping">
+          <Transition event="walk" target="walking" cond={guards.check} action={actions.walking} />
+        </State>
+        <State id="walking">
+          <Transition event="sleep" target="sleeping" />
+        </State>
+      </>
+    );
+  };
+
+  let counter = 0;
+  const fn = jest.fn(() => counter++);
+
+  const machine = fsm(
+    humanStateChart,
+    {},
+    {
+      actions: {
+        walking: fn,
+      },
+      guards: {
+        check: fn,
+      },
+    }
+  );
+
+  it('should only proceed if condition is true', () => {
+    const service = machine.start();
+    service.send('walk');
+    expect(service.state.value).toBe('sleeping');
+    service.send('walk');
+    expect(service.state.value).toBe('walking');
   });
 });

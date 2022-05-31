@@ -9,8 +9,15 @@ export const Transition: FC<JSXTransitionProps> = () => null;
 export const Final: FC<JSXFinalProps> = () => null;
 /* c8 ignore stop */
 
+type StateChartFunction = (...args: any[]) => JSX.Element;
+
 // converts JSX, SCXML JSON to json and returns fluent api
-export default <Data extends AnyObj>(stateChart: JSX.Element, data?: Data) => {
-  const machineConfig = generateMachineConfig(stateChart, data);
+export default <Data extends AnyObj, A extends AnyObj>(
+  stateChart: JSX.Element | StateChartFunction,
+  data?: Data,
+  actions?: A
+) => {
+  const sc = typeof stateChart === 'function' ? stateChart(actions) : stateChart;
+  const machineConfig = generateMachineConfig(sc, data);
   return fluent<Data>(machineConfig);
 };

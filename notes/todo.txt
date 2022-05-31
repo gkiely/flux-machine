@@ -1,15 +1,31 @@
-This weekend
+- Support inline JSX
+  - Add fsm:jsx tests
+
+- Pass data to actions
+
 - Support adding invoke, etc. to global transition
-- Goal: get nested and parallel states working
+
+- Clean up clone, see if you can get a faster and more performant version working with structured clone
+
 - Move away from @xstate/fsm
-- Add support for passing actions to state chart
+- Get nested states working
+  - Write tests
+- Get parallel states working
+
+
 
 - Write fsm test for invoke
 - Add an invoke example with a working api call
-- Nested states/transisions
 
+- Build out the entire XML with JSX
+  - I'll support passing props and also as xml that matches the spec
+
+- Launch V1
 
 V2
+- V2
+  - State chart library builder
+
 - Update invoke to be a void async function where you can call send()
 
 - Add badge to show gzip payload size and coverage

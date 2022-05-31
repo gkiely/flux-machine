@@ -28,6 +28,9 @@ export type JSXStateProps = {
 export type JSXTransitionProps = {
   event: string;
   target: string;
+  action?: (data: AnyObj) => void;
+  actions?: JSXTransitionProps['action'][];
+  cond?: (data: AnyObj) => boolean;
 };
 
 export type WhenArgs =
