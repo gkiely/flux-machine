@@ -1,4 +1,5 @@
 import { assign, createMachine, interpret } from '@xstate/fsm';
+import clone from './clone';
 import { AnyObj, Config, WhenArgs } from './types';
 import { omit } from './utils';
 
@@ -12,7 +13,7 @@ export const handleError = (event: string | null, methodName: string) => {
 type InvokeKey = 'onError' | 'onDone';
 
 export const fluent = <Data>(machineConfig: Config<Data>) => {
-  const config = structuredClone(machineConfig);
+  const config = clone(machineConfig);
   let currentState = config.initial;
   let currentEvent: string | null = null;
 
@@ -140,7 +141,7 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
       return this;
     },
     get: () => config,
-    invoke(fn: (data: Data) => Promise<AnyObj | void>) {
+    invoke(fn: (data?: Data) => Promise<void> | Promise<AnyObj>) {
       const state = config.states?.[currentState];
 
       if (state) {

@@ -1,15 +1,34 @@
-This weekend
-- Support adding invoke, etc. to global transition
-- Goal: get nested and parallel states working
+- Add support for assign to jsx
 - Move away from @xstate/fsm
-- Add support for passing actions to state chart
+  - Write out tests
+  - Write code
+- Get nested states working
+  - Write tests
+- Get parallel states working
 
-- Write fsm test for invoke
-- Add an invoke example with a working api call
-- Nested states/transisions
+- Add script syntax
+<Script>
+  {(data) => {
+    actions.walking?.();
+  }}
+</Script>
 
+- Add support for all tags
+  - Script
+
+- Replace readme examples with JSX, show fluent api as an alternative
+
+- Launch V1
+
+TBD
+- Add support for invoke once xstate/fsm has been replaced
+- Clean up clone, see if you can get a faster and more performant version working with structured clone
+- Support global transition
 
 V2
+- V2
+  - State chart library builder
+
 - Update invoke to be a void async function where you can call send()
 
 - Add badge to show gzip payload size and coverage

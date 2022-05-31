@@ -17,12 +17,17 @@ type Props = {
     event: string;
     target: string;
     initial?: string;
+    cond?: (data: AnyObj) => boolean;
+    action?: (data: AnyObj) => void;
+    actions?: Transition['actions'];
   } & Record<string, string | boolean | number>;
 };
 
-type ParsedOutput = {
-  props: Props;
-};
+type ParsedOutput =
+  | {
+      props: Props;
+    }
+  | Props;
 
 const replacer = (key: string, value: { name: string } & AnyObj) => {
   switch (key) {
@@ -39,9 +44,31 @@ const replacer = (key: string, value: { name: string } & AnyObj) => {
   }
 };
 
+export const parser = (node: JSX.Element | AnyObj): ParsedOutput => {
+  return Object.keys(node).reduce((prev, key) => {
+    const value = replacer(key, node[key]);
+    if (value === undefined) return prev;
+
+    if (Array.isArray(value)) {
+      return {
+        ...prev,
+        [key]: value.map(child => parser(child)),
+      };
+    } else if (typeof value === 'object') {
+      return {
+        ...prev,
+        [key]: parser(value),
+      };
+    }
+    return {
+      ...prev,
+      [key]: value,
+    };
+  }, {} as ParsedOutput);
+};
+
 const parseJSX = (jsx: JSX.Element): ParsedOutput => {
-  const str = JSON.stringify(jsx, replacer);
-  return JSON.parse(str);
+  return parser(jsx);
 };
 
 const getChildren = (children: Props['children'], nodeType: NodeType | NodeType[]): Props[] =>
@@ -50,13 +77,17 @@ const getChildren = (children: Props['children'], nodeType: NodeType | NodeType[
   );
 
 // JSX parser
-export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, data?: Data): Config<Data> => {
+export const generateMachineConfig = <Data extends AnyObj>(
+  jsx: JSX.Element,
+  data?: Data | null
+): Config<Data> => {
   const output = {
     initial: '',
     ...(data && { context: data }),
     states: {},
   };
   const config = parseJSX(jsx);
+
   if (!config.props.children) return output;
 
   const { children } = config.props;
@@ -82,9 +113,15 @@ export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, dat
 
     acc[id] = {
       on: transitions.reduce((acc: Record<string, Transition>, transition) => {
-        const { event, target } = transition.props;
+        const { event, action, actions = [], ...rest } = transition.props;
+
+        if (action) {
+          actions.push(action);
+        }
+
         acc[event] = {
-          target,
+          ...(actions.length ? { actions } : {}),
+          ...rest,
         };
         return acc;
       }, {} as Record<string, Transition>),

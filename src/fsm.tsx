@@ -10,7 +10,12 @@ export const Final: FC<JSXFinalProps> = () => null;
 /* c8 ignore stop */
 
 // converts JSX, SCXML JSON to json and returns fluent api
-export default <Data extends AnyObj>(stateChart: JSX.Element, data?: Data) => {
-  const machineConfig = generateMachineConfig(stateChart, data);
+export default <Data extends AnyObj, A extends AnyObj>(
+  stateChart: JSX.Element | ((...args: any[]) => JSX.Element),
+  data?: Data | null,
+  actions?: A
+) => {
+  const sc = typeof stateChart === 'function' ? stateChart(actions) : stateChart;
+  const machineConfig = generateMachineConfig(sc, data);
   return fluent<Data>(machineConfig);
 };

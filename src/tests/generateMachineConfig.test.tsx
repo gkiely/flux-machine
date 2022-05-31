@@ -1,5 +1,6 @@
-import { generateMachineConfig } from '../generateMachineConfig';
+import { generateMachineConfig, parser } from '../generateMachineConfig';
 import { Final, State, Transition } from '../fsm';
+import { AnyObj } from 'src/types';
 
 const sc = (
   <>
@@ -196,5 +197,90 @@ describe('final', () => {
         },
       },
     });
+  });
+});
+
+describe('parser', () => {
+  it('should accept jsx and return an object', () => {
+    const fn = jest.fn();
+    expect(
+      parser(
+        <>
+          <State id="sleeping">
+            <Transition event="walk" target="walking" cond={fn} />
+          </State>
+        </>
+      )
+    ).toEqual({
+      props: {
+        children: {
+          type: 'State',
+          props: {
+            id: 'sleeping',
+            children: {
+              type: 'Transition',
+              props: {
+                event: 'walk',
+                target: 'walking',
+                cond: fn,
+              },
+            },
+          },
+        },
+      },
+    });
+  });
+});
+
+describe('jsx:cond', () => {
+  const humanStateChart = ({
+    actions,
+    guards,
+  }: {
+    actions: Record<string, () => void>;
+    guards: Record<string, (data: AnyObj) => boolean>;
+  }) => {
+    return (
+      <>
+        <State id="sleeping">
+          <Transition event="walk" target="walking" cond={guards.check} action={actions.walking} />
+        </State>
+        <State id="walking">
+          <Transition event="sleep" target="sleeping" />
+        </State>
+      </>
+    );
+  };
+  const fn = jest.fn(() => false);
+
+  const sc = humanStateChart({
+    actions: {
+      walking: fn,
+    },
+    guards: {
+      check: fn,
+    },
+  });
+
+  expect(generateMachineConfig(sc)).toEqual({
+    initial: 'sleeping',
+    states: {
+      sleeping: {
+        on: {
+          walk: {
+            target: 'walking',
+            cond: fn,
+            actions: [fn],
+          },
+        },
+      },
+      walking: {
+        on: {
+          sleep: {
+            target: 'sleeping',
+          },
+        },
+      },
+    },
   });
 });

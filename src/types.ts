@@ -25,10 +25,20 @@ export type JSXStateProps = {
   initial?: boolean;
 };
 
+type Action = (data: AnyObj) => void;
+
 export type JSXTransitionProps = {
   event: string;
   target: string;
-};
+  cond?: (data: AnyObj) => boolean;
+} & (
+  | {
+      action?: Action;
+    }
+  | {
+      actions?: Action[];
+    }
+);
 
 export type WhenArgs =
   | {
@@ -63,6 +73,14 @@ export type State<Data> = Partial<{
     onError?: Transition;
   };
 }>;
+
+export type StateChart = <Obj extends AnyObj>({
+  actions,
+  guards,
+}: {
+  actions: Record<keyof Obj, () => void>;
+  guards: Record<keyof Obj, (data: AnyObj) => boolean>;
+}) => JSX.Element;
 
 export type Config<Data> = {
   initial: string;

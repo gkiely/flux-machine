@@ -1,3 +1,4 @@
+import { AnyObj, StateChart } from 'src/types';
 import fsm, { Final, State, Transition } from '../fsm';
 
 const stateChart = (
@@ -118,22 +119,30 @@ describe('fsm', () => {
     expect(service.state.value).toBe('sleeping');
   });
 
-  it('invokes a promise', () => {
-    const machine = fsm(stateChart);
+  /// TODO: add support for invoke, currently xstate/fsm does not support it
+  xit('invokes a promise', () => {
+    const machine = fsm(
+      <>
+        <State initial id="sleeping">
+          <Transition event="walk" target="walking" />
+        </State>
+      </>
+    );
     const service = machine.start();
 
     // wip
-    // machine.when({
-    //   state: 'sleeping',
-    // })
-    // .invoke(async (data, send) => {
-    //   try {
-    //     await new Promise(resolve => setTimeout(resolve, 100));
-    //     send('walk');
-    //   } catch {
-    //     send('sleep');
-    //   }
-    // })
+    machine
+      .when({
+        state: 'sleeping',
+      })
+      /// TODO: allow calling send
+      .invoke(async () => {
+        console.log('invoke');
+        try {
+          await new Promise(resolve => setTimeout(resolve, 100));
+          console.log('hey');
+        } catch {}
+      });
 
     machine.start();
 
@@ -181,5 +190,74 @@ describe('fsm', () => {
     service.send('end');
     expect(service.state.value).toBe('3');
     expect(fn).toBeCalledTimes(1);
+  });
+});
+
+describe('jsx', () => {
+  describe('cond', () => {
+    const sc: StateChart = ({ guards }) => {
+      return (
+        <>
+          <State id="sleeping">
+            <Transition event="walk" target="walking" cond={guards.check} />
+          </State>
+          <State id="walking">
+            <Transition event="sleep" target="sleeping" />
+          </State>
+        </>
+      );
+    };
+
+    let counter = 0;
+
+    const machine = fsm(sc, null, {
+      guards: {
+        check: jest.fn(() => counter++),
+      },
+    });
+
+    it('should only proceed if condition is true', () => {
+      const service = machine.start();
+      service.send('walk');
+      expect(service.state.value).toBe('sleeping');
+      service.send('walk');
+      expect(service.state.value).toBe('walking');
+    });
+  });
+
+  describe('action', () => {
+    const sc: StateChart = ({ actions }) => {
+      return (
+        <>
+          <State id="sleeping">
+            <Transition event="walk" target="walking" action={actions.walking} />
+          </State>
+          <State id="walking">
+            <Transition event="sleep" target="sleeping" />
+          </State>
+        </>
+      );
+    };
+
+    const fn = jest.fn();
+
+    const machine = fsm(
+      sc,
+      {
+        speed: 1,
+      },
+      {
+        actions: {
+          walking: fn,
+        },
+      }
+    );
+
+    it('should call function', () => {
+      const service = machine.start();
+      service.send('walk');
+      expect(fn).toBeCalledTimes(1);
+      expect(fn).toBeCalledWith({ speed: 1 }, { type: 'walk' });
+    });
   });
 });
