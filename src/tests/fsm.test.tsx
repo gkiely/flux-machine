@@ -199,7 +199,7 @@ describe('jsx', () => {
       return (
         <>
           <State id="sleeping">
-            <Transition event="walk" target="walking" cond={guards.check} />
+            <Transition event="walk" target="walking" cond={guards?.check} />
           </State>
           <State id="walking">
             <Transition event="sleep" target="sleeping" />
@@ -230,7 +230,7 @@ describe('jsx', () => {
       return (
         <>
           <State id="sleeping">
-            <Transition event="walk" target="walking" action={actions.walking} />
+            <Transition event="walk" target="walking" action={actions?.walking} />
           </State>
           <State id="walking">
             <Transition event="sleep" target="sleeping" />
@@ -258,6 +258,51 @@ describe('jsx', () => {
       service.send('walk');
       expect(fn).toBeCalledTimes(1);
       expect(fn).toBeCalledWith({ speed: 1 }, { type: 'walk' });
+    });
+  });
+
+  describe('assign', () => {
+    const sc: StateChart = ({ actions, guards }) => {
+      return (
+        <>
+          <State id="sleeping">
+            <Transition event="walk" target="walking" cond={guards?.check} />
+            <Transition event="step" assign={actions?.step} />
+          </State>
+          <State id="walking">
+            <Transition event="sleep" target="sleeping" />
+          </State>
+        </>
+      );
+    };
+
+    const machine = fsm(
+      sc,
+      {
+        speed: 0,
+      },
+      {
+        actions: {
+          /// TODO: add correct typing for 3rd argument of fsm
+          // @ts-expect-error
+          step: data => ({ speed: data.speed + 1 }),
+        },
+        guards: {
+          // @ts-expect-error
+          check: data => data.speed >= 1,
+        },
+      }
+    );
+
+    it('should assign', () => {
+      const service = machine.start();
+      service.send('walk');
+      expect(service.state.value).toBe('sleeping');
+      service.send('step');
+      expect(service.state.context).toEqual({ speed: 1 });
+      expect(service.state.value).toBe('sleeping');
+      service.send('walk');
+      expect(service.state.value).toBe('walking');
     });
   });
 });

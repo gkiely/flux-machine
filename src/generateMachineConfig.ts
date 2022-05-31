@@ -1,3 +1,4 @@
+import { assign } from '@xstate/fsm';
 import { AnyObj, assert, Config, State, Transition } from './types';
 
 const nodeTypes = {
@@ -113,10 +114,15 @@ export const generateMachineConfig = <Data extends AnyObj>(
 
     acc[id] = {
       on: transitions.reduce((acc: Record<string, Transition>, transition) => {
-        const { event, action, actions = [], ...rest } = transition.props;
+        const { event, action, actions = [], assign: _assign, ...rest } = transition.props;
 
         if (action) {
           actions.push(action);
+        }
+
+        if (_assign) {
+          // @ts-expect-error
+          actions.push(assign(_assign));
         }
 
         acc[event] = {

@@ -29,8 +29,9 @@ type Action = (data: AnyObj) => void;
 
 export type JSXTransitionProps = {
   event: string;
-  target: string;
+  target?: string;
   cond?: (data: AnyObj) => boolean;
+  assign?: Action;
 } & (
   | {
       action?: Action;
@@ -78,8 +79,8 @@ export type StateChart = <Obj extends AnyObj>({
   actions,
   guards,
 }: {
-  actions: Record<keyof Obj, () => void>;
-  guards: Record<keyof Obj, (data: AnyObj) => boolean>;
+  actions?: Record<keyof Obj, () => void>;
+  guards?: Record<keyof Obj, (data: AnyObj) => boolean>;
 }) => JSX.Element;
 
 export type Config<Data> = {
