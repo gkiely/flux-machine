@@ -1,4 +1,6 @@
 - Add support for assign to jsx
+  - Add code x
+  - Fix type errors (fsm.test)
 - Move away from @xstate/fsm
   - Write out tests
   - Write code

@@ -261,12 +261,13 @@ describe('jsx', () => {
     });
   });
 
-  describe('action', () => {
-    const sc: StateChart = ({ actions }) => {
+  describe('assign', () => {
+    const sc: StateChart = ({ actions, guards }) => {
       return (
         <>
           <State id="sleeping">
-            <Transition event="walk" target="walking" assign={actions?.walk} />
+            <Transition event="walk" target="walking" cond={guards?.check} />
+            <Transition event="step" target="sleeping" assign={actions?.step} />
           </State>
           <State id="walking">
             <Transition event="sleep" target="sleeping" />
@@ -274,8 +275,6 @@ describe('jsx', () => {
         </>
       );
     };
-
-    const fn = jest.fn();
 
     const machine = fsm(
       sc,
@@ -286,15 +285,24 @@ describe('jsx', () => {
         actions: {
           /// TODO: add correct typing for 3rd argument of fsm
           // @ts-expect-error
-          walk: data => ({ speed: data.speed + 1 }),
+          step: data => ({ speed: data.speed + 1 }),
+        },
+        guards: {
+          // @ts-expect-error
+          check: data => data.speed >= 1,
         },
       }
     );
 
-    it('should call function', () => {
+    it('should assign', () => {
       const service = machine.start();
       service.send('walk');
+      expect(service.state.value).toBe('sleeping');
+      service.send('step');
       expect(service.state.context).toEqual({ speed: 1 });
+      expect(service.state.value).toBe('sleeping');
+      service.send('walk');
+      expect(service.state.value).toBe('walking');
     });
   });
 });

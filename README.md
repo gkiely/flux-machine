@@ -184,7 +184,7 @@ const machine = fsm(sc, null, {
     walk: () => console.log('I am walking'),
   }
   guards: {
-    check: () => false,
+    check: (data) => data.speed > 1,
   },
 });
 service.send("walk");
