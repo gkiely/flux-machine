@@ -14,7 +14,7 @@ type StateChartFunction = (...args: any[]) => JSX.Element;
 // converts JSX, SCXML JSON to json and returns fluent api
 export default <Data extends AnyObj, A extends AnyObj>(
   stateChart: JSX.Element | StateChartFunction,
-  data?: Data,
+  data?: Data | null,
   actions?: A
 ) => {
   const sc = typeof stateChart === 'function' ? stateChart(actions) : stateChart;

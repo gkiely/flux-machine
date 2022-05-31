@@ -12,7 +12,12 @@
   - Write tests
 - Get parallel states working
 
-
+- Add script syntax
+<Script>
+  {(data) => {
+    actions.walking?.();
+  }}
+</Script>
 
 - Write fsm test for invoke
 - Add an invoke example with a working api call

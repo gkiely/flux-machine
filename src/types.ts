@@ -25,13 +25,20 @@ export type JSXStateProps = {
   initial?: boolean;
 };
 
+type Action = (data: AnyObj) => void;
+
 export type JSXTransitionProps = {
   event: string;
   target: string;
-  action?: (data: AnyObj) => void;
-  actions?: JSXTransitionProps['action'][];
   cond?: (data: AnyObj) => boolean;
-};
+} & (
+  | {
+      action?: Action;
+    }
+  | {
+      actions?: Action[];
+    }
+);
 
 export type WhenArgs =
   | {

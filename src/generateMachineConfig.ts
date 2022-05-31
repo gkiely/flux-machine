@@ -77,7 +77,10 @@ const getChildren = (children: Props['children'], nodeType: NodeType | NodeType[
   );
 
 // JSX parser
-export const generateMachineConfig = <Data extends AnyObj>(jsx: JSX.Element, data?: Data): Config<Data> => {
+export const generateMachineConfig = <Data extends AnyObj>(
+  jsx: JSX.Element,
+  data?: Data | null
+): Config<Data> => {
   const output = {
     initial: '',
     ...(data && { context: data }),

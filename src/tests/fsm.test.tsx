@@ -185,18 +185,16 @@ describe('fsm', () => {
   });
 });
 
-describe('fsm:jsx', () => {
-  const humanStateChart = ({
-    actions,
+describe('jsx - cond', () => {
+  const humanStateChart = <Obj extends AnyObj>({
     guards,
   }: {
-    actions: Record<string, () => void>;
-    guards: Record<string, (data: AnyObj) => boolean>;
+    guards: Record<keyof Obj, (data: AnyObj) => boolean>;
   }) => {
     return (
       <>
         <State id="sleeping">
-          <Transition event="walk" target="walking" cond={guards.check} action={actions.walking} />
+          <Transition event="walk" target="walking" cond={guards.check} />
         </State>
         <State id="walking">
           <Transition event="sleep" target="sleeping" />
@@ -206,20 +204,12 @@ describe('fsm:jsx', () => {
   };
 
   let counter = 0;
-  const fn = jest.fn(() => counter++);
 
-  const machine = fsm(
-    humanStateChart,
-    {},
-    {
-      actions: {
-        walking: fn,
-      },
-      guards: {
-        check: fn,
-      },
-    }
-  );
+  const machine = fsm(humanStateChart, null, {
+    guards: {
+      check: jest.fn(() => counter++),
+    },
+  });
 
   it('should only proceed if condition is true', () => {
     const service = machine.start();
@@ -227,5 +217,38 @@ describe('fsm:jsx', () => {
     expect(service.state.value).toBe('sleeping');
     service.send('walk');
     expect(service.state.value).toBe('walking');
+  });
+});
+
+describe('jsx - action', () => {
+  const humanStateChart = <Obj extends AnyObj>({
+    actions,
+  }: {
+    actions: Record<keyof Obj, () => void>;
+  }) => {
+    return (
+      <>
+        <State id="sleeping">
+          <Transition event="walk" target="walking" action={actions.walking} />
+        </State>
+        <State id="walking">
+          <Transition event="sleep" target="sleeping" />
+        </State>
+      </>
+    );
+  };
+
+  const fn = jest.fn();
+
+  const machine = fsm(humanStateChart, null, {
+    actions: {
+      walking: fn,
+    },
+  });
+
+  it('should call function', () => {
+    const service = machine.start();
+    service.send('walk');
+    expect(fn).toBeCalledTimes(1);
   });
 });
