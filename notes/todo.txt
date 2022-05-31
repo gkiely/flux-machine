@@ -1,13 +1,7 @@
-- Support inline JSX
-  - Add fsm:jsx tests
-
-- Pass data to actions
-
-- Support adding invoke, etc. to global transition
-
-- Clean up clone, see if you can get a faster and more performant version working with structured clone
-
+- Add support for assign to jsx
 - Move away from @xstate/fsm
+  - Write out tests
+  - Write code
 - Get nested states working
   - Write tests
 - Get parallel states working
@@ -19,13 +13,17 @@
   }}
 </Script>
 
-- Write fsm test for invoke
-- Add an invoke example with a working api call
+- Add support for all tags
+  - Script
 
-- Build out the entire XML with JSX
-  - I'll support passing props and also as xml that matches the spec
+- Replace readme examples with JSX, show fluent api as an alternative
 
 - Launch V1
+
+TBD
+- Add support for invoke once xstate/fsm has been replaced
+- Clean up clone, see if you can get a faster and more performant version working with structured clone
+- Support global transition
 
 V2
 - V2

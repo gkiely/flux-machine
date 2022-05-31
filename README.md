@@ -163,6 +163,34 @@ machine
   });
 ```
 
+### Inline JSX syntax for actions and conditions
+
+```tsx
+const sc: StateChart = ({ actions, guards }) => {
+  return (
+    <>
+      <State id="sleeping">
+        <Transition event="walk" target="walking" cond={guards.check} action={actions.walk} />
+      </State>
+      <State id="walking">
+        <Transition event="sleep" target="sleeping" />
+      </State>
+    </>
+  );
+};
+
+const machine = fsm(sc, null, {
+  actions: {
+    walk: () => console.log('I am walking'),
+  }
+  guards: {
+    check: () => false,
+  },
+});
+service.send("walk");
+console.log(machine.state.value); // sleeping
+```
+
 ## Project goals
 
 - Match the [SCXML specification](https://www.w3.org/TR/scxml) as closely as possible

@@ -232,38 +232,6 @@ describe('parser', () => {
   });
 });
 
-describe('parser', () => {
-  it('should accept jsx and return an object', () => {
-    const fn = jest.fn();
-    expect(
-      parser(
-        <>
-          <State id="sleeping">
-            <Transition event="walk" target="walking" cond={fn} />
-          </State>
-        </>
-      )
-    ).toEqual({
-      props: {
-        children: {
-          type: 'State',
-          props: {
-            id: 'sleeping',
-            children: {
-              type: 'Transition',
-              props: {
-                event: 'walk',
-                target: 'walking',
-                cond: fn,
-              },
-            },
-          },
-        },
-      },
-    });
-  });
-});
-
 describe('jsx:cond', () => {
   const humanStateChart = ({
     actions,

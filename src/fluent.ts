@@ -141,7 +141,7 @@ export const fluent = <Data>(machineConfig: Config<Data>) => {
       return this;
     },
     get: () => config,
-    invoke(fn: (data: Data) => Promise<AnyObj | void>) {
+    invoke(fn: (data?: Data) => Promise<void> | Promise<AnyObj>) {
       const state = config.states?.[currentState];
 
       if (state) {

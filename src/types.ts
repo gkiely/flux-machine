@@ -74,6 +74,14 @@ export type State<Data> = Partial<{
   };
 }>;
 
+export type StateChart = <Obj extends AnyObj>({
+  actions,
+  guards,
+}: {
+  actions: Record<keyof Obj, () => void>;
+  guards: Record<keyof Obj, (data: AnyObj) => boolean>;
+}) => JSX.Element;
+
 export type Config<Data> = {
   initial: string;
   context?: Data;
