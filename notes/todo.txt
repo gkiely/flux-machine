@@ -1,3 +1,8 @@
+- Revert back to the fluent api
+  - Less tests, less code
+  - Better typescript support
+  - Separates finite and infinite state
+
 - Add support for assign to jsx
 - Move away from @xstate/fsm
   - Write out tests
