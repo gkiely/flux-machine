@@ -109,7 +109,7 @@ console.log(service.state.context); // { speed: 1 }
 | [script](https://www.w3.org/TR/scxml/#script)         |      ✅      | `.action()`       |
 | [send](https://www.w3.org/TR/scxml/#send)             |      ✅      | `.send()`         |
 | [cancel](https://www.w3.org/TR/scxml/#cancel)         |      ❌      |                   |
-| [invoke](https://www.w3.org/TR/scxml/#invoke)         |      ✅      | `.invoke()`       |
+| [invoke](https://www.w3.org/TR/scxml/#invoke)         |      ❌      |                   |
 | [finalize](https://www.w3.org/TR/scxml/#finalize)     |      ❌      |                   |
 
 ## Additional features

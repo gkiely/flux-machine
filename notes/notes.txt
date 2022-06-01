@@ -75,3 +75,13 @@ const humanStateChart = (
 
 
 https://gist.github.com/danieldietrich/999abe1aaee11dcdf91d182807f7ee3f
+
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      state: JSXStateProps & { children: ReactElement };
+      transition: JSXTransitionProps;
+    }
+  }
+}
