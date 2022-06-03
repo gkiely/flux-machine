@@ -1,3 +1,9 @@
+Current
+- 0.1.20 is failing
+  - Set up a react app and repro
+  - Setup a react app and react-testing-library for testing
+  - Do a git bisect
+
 V1
 Goal: move away from @xstate/fsm, and get spec covered
 
