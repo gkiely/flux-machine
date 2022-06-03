@@ -1,1 +1,1 @@
-export { default, State, Transition } from './fsm';
+export { default, default as fsm, State, Transition } from './fsm';
