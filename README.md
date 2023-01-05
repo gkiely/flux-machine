@@ -1,6 +1,6 @@
 # Flux machine
 
-Spec compliant finite state machines using JSX and chainable methods.
+Finite state machines using JSX and chainable methods.
 
 Installation:
 
